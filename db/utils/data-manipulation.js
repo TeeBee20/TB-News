@@ -33,7 +33,8 @@ exports.formatArticleData = (articleData) => {
   return articleValues;
 };
 
-exports.formatCommentData = (commentData) => {
+exports.formatCommentData = (commentData, userResults) => {
+  console.log(userResults, "<<in formatCommentData");
   const commentValues = commentData.map((comment) => {
     return [
       comment.author,

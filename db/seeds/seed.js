@@ -15,20 +15,30 @@ const db = require("../connection.js");
 const seed = async (data) => {
   const { articleData, commentData, topicData, userData } = data;
 
-  await db.query(`DROP TABLE IF EXISTS topic;`);
-  await db.query(`DROP TABLE IF EXISTS user;`);
-  await db.query(`DROP TABLE IF EXISTS article;`);
   await db.query(`DROP TABLE IF EXISTS comment;`);
+  await db.query(`DROP TABLE IF EXISTS article;`);
+  await db.query(`DROP TABLE IF EXISTS user;`);
+  await db
+    .query(`DROP TABLE IF EXISTS topic;`)
+    .then(() => console.log("tables created"));
 
-  await db.query(`CREATE TABLE topic (
+  await db
+    .query(
+      `CREATE TABLE topic (
     slug VARCHAR PRIMARY KEY NOT NULL,
     description VARCHAR NOT NULL
-  );`);
-  await db.query(`CREATE TABLE user (
+  );`
+    )
+    .then(() => console.log("topic table created"));
+  await db
+    .query(
+      `CREATE TABLE user (
     username SERIAL PRIMARY KEY NOT NULL,
     avatar_url VARCHAR NOT NULL,
     name VARCHAR NOT NULL
-  );`);
+  );`
+    )
+    .then(() => console.log("user tables created"));
   await db.query(`CREATE TABLE article (
     article_id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR NOT NULL,
@@ -56,26 +66,27 @@ VALUES %L RETURNING *;`,
   );
 
   await db.query(topicInsertStr);
-  const userValues = formatUserData(userData);
-  const userDataStr = format(
-    `INSERT INTO users
-(username, avatar_url, name)
-VALUES %L RETURNING *;`,
-    userValues
-  );
+  //   const userValues = formatUserData(userData);
+  //   const userDataStr = format(
+  //     `INSERT INTO user
+  // (username, avatar_url, name)
+  // VALUES %L RETURNING *;`,
+  //     userValues
+  //   );
 
-  const userResults = await db.query(userDataStr);
+  //   const userResults = await db.query(userDataStr);
+  //   await formatCommentData(commentData, userResults);
 
-  const articleValues = formatArticleData(articleData);
-  const articleDataStr = format(
-    `INSERT INTO articles
-  (title, body, votes, topic, author, created_at)
-  VALUES %L RETURNING *;`,
-    articleValues
-  );
+  //   const articleValues = formatArticleData(articleData);
+  //   const articleDataStr = format(
+  //     `INSERT INTO article
+  //   (title, body, votes, topic, author, created_at)
+  //   VALUES %L RETURNING *;`,
+  //     articleValues
+  //   );
 
-  const articleResults = await db.query(articleDataStr);
-  console.log(articleResults);
+  //   const articleResults = await db.query(articleDataStr);
+  //   console.log(articleResults);
 };
 
 module.exports = seed;
