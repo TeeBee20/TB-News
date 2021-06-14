@@ -4,7 +4,12 @@ const {
   topicData,
   userData,
 } = require("../data/test-data/index");
-const { formatTopicData } = require("../utils/data-manipulation");
+const {
+  formatTopicData,
+  formatUserData,
+  formatArticleData,
+  formatCommentData,
+} = require("../utils/data-manipulation");
 const db = require("../connection.js");
 
 const seed = async (data) => {
@@ -49,7 +54,28 @@ const seed = async (data) => {
 VALUES %L RETURNING *;`,
     topicValues
   );
+
   await db.query(topicInsertStr);
+  const userValues = formatUserData(userData);
+  const userDataStr = format(
+    `INSERT INTO users
+(username, avatar_url, name)
+VALUES %L RETURNING *;`,
+    userValues
+  );
+
+  const userResults = await db.query(userDataStr);
+
+  const articleValues = formatArticleData(articleData);
+  const articleDataStr = format(
+    `INSERT INTO articles
+  (title, body, votes, topic, author, created_at)
+  VALUES %L RETURNING *;`,
+    articleValues
+  );
+
+  const articleResults = await db.query(articleDataStr);
+  console.log(articleResults);
 };
 
 module.exports = seed;
