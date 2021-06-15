@@ -30,19 +30,20 @@ exports.formatArticleData = (articleData) => {
       article.created_at,
     ];
   });
+  console.log(articleValues);
   return articleValues;
 };
 
-exports.formatCommentData = (commentData, userResults) => {
-  console.log(userResults, "<<in formatCommentData");
+exports.formatCommentData = (commentData) => {
   const commentValues = commentData.map((comment) => {
     return [
-      comment.author,
-      comment.article_id,
+      comment.created_by,
+      comment.belongs_to,
       comment.votes,
       comment.created_at,
       comment.body,
     ];
   });
+
   return commentValues;
 };

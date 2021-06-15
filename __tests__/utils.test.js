@@ -259,7 +259,7 @@ describe("formatTopicData()", () => {
   //     ]);
   // });
 
-  describe("formatCommentData", () => {
+  describe.only("formatCommentData", () => {
     it("returns an array of nested arrays", () => {
       const commentData = [
         {
@@ -300,7 +300,173 @@ describe("formatTopicData()", () => {
       ];
       expect(Array.isArray(formatCommentData(commentData))).toBe(true);
       expect(Array.isArray(formatCommentData(commentData)[0])).toBe(true);
-      console.log(articleResults);
     });
+    test("should return an array of nested arrays from comment object", () => {
+      const commentData = [
+        {
+          body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+          belongs_to: "They're not exactly dogs, are they?",
+          created_by: "butter_bridge",
+          votes: 16,
+          created_at: new Date(1586179020000),
+        },
+        {
+          body: "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "butter_bridge",
+          votes: 14,
+          created_at: new Date(1604113380000),
+        },
+        {
+          body: "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "icellusedkars",
+          votes: 100,
+          created_at: new Date(1583025180000),
+        },
+        {
+          body: " I carry a log — yes. Is it funny to you? It is not to me.",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "icellusedkars",
+          votes: -100,
+          created_at: new Date(1582459260000),
+        },
+        {
+          body: "I hate streaming noses",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "icellusedkars",
+          votes: 0,
+          created_at: new Date(1604437200000),
+        },
+      ];
+    });
+    expect(formatCommentData(commentData)).toEqual([
+      [
+        "butter_bridge",
+        "They're not exactly dogs, are they?",
+        16,
+        new Date(1586179020000),
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      ],
+      [
+        "butter_bridge",
+        "Living in the shadow of a great man",
+        14,
+        new Date(1604113380000),
+        "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        100,
+        new Date(1583025180000),
+        "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        -100,
+        new Date(1582459260000),
+        " I carry a log — yes. Is it funny to you? It is not to me.",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1604437200000),
+        "I hate streaming noses",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1586642520000),
+        "I hate streaming eyes even more",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1589577540000),
+        "Lobster pot",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1586899140000),
+        "Delicious crackerbreads",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1577848080000),
+        "Superficially charming",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1592641440000),
+        "git push origin master",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1600560600000),
+        "Ambidextrous marsupial",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1583133000000),
+        "Massive intercranial brain haemorrhage",
+      ],
+      [
+        "icellusedkars",
+        "Living in the shadow of a great man",
+        0,
+        new Date(1592220300000),
+        "Fruit pastilles",
+      ],
+      [
+        "icellusedkars",
+        "UNCOVERED: catspiracy to bring down democracy",
+        16,
+        new Date(1591682400000),
+        "What do you see? I have no idea where this will lead us. This place I speak of, is known as the Black Lodge.",
+      ],
+      [
+        "butter_bridge",
+        "UNCOVERED: catspiracy to bring down democracy",
+        1,
+        new Date(1606176480000),
+        "I am 100% sure that we're not completely sure.",
+      ],
+      [
+        "butter_bridge",
+        "A",
+        1,
+        new Date(1602433380000),
+        "This is a bad article name",
+      ],
+      [
+        "icellusedkars",
+        "They're not exactly dogs, are they?",
+        20,
+        new Date(1584205320000),
+        "The owls are not what they seem.",
+      ],
+      [
+        "butter_bridge",
+        "Living in the shadow of a great man",
+        16,
+        new Date(1595294400000),
+        "This morning, I showered for nine minutes.",
+      ],
+    ]);
   });
 });
