@@ -9,6 +9,7 @@ const {
   formatUserData,
   formatArticleData,
   formatCommentData,
+  createArticleId,
 } = require("../utils/data-manipulation");
 const db = require("../connection.js");
 const format = require("pg-format");
@@ -79,18 +80,22 @@ const seed = async (data) => {
   const articleValues = formatArticleData(articleData);
   const articleDataStr = format(
     `INSERT INTO articles
-      (title, body, votes, topic, author, created_at)
-      VALUES %L RETURNING *;`,
+        (title, body, votes, topic, author, created_at)
+        VALUES %L RETURNING *;`,
     articleValues
   );
 
   await db.query(articleDataStr);
 
-  const commentValues = formatCommentData(commentData);
+  const allFromTable = await db.query("SELECT * FROM articles");
+
+  const results = createArticleId(allFromTable);
+
+  const commentValues = formatCommentData(commentData, results);
   const commentDataStr = format(
     `INSERT INTO comments
-  (author, article_id, votes, created_at, body)
-  VALUES %L RETURNING *;`,
+     (author, article_id, votes, created_at, body)
+     VALUES %L RETURNING *;`,
     commentValues
   );
 

@@ -21,29 +21,39 @@ exports.formatUserData = (userData) => {
 
 exports.formatArticleData = (articleData) => {
   const articleValues = articleData.map((article) => {
+    const votes = !article.votes ? 0 : article.votes;
     return [
       article.title,
       article.body,
-      article.votes,
+      votes,
       article.topic,
       article.author,
       article.created_at,
     ];
   });
-  console.log(articleValues);
+
   return articleValues;
 };
 
-exports.formatCommentData = (commentData) => {
+exports.createArticleId = (articleResult) => {
+  const articleObj = {};
+  articleResult.rows.forEach((article) => {
+    articleObj[article.title] = article.article_id;
+  });
+  return articleObj;
+};
+
+exports.formatCommentData = (commentData, articleObj) => {
   const commentValues = commentData.map((comment) => {
+    const votes = !comment.votes ? 0 : comment.votes;
     return [
       comment.created_by,
-      comment.belongs_to,
-      comment.votes,
+      articleObj[comment.belongs_to],
+      votes,
       comment.created_at,
       comment.body,
     ];
   });
-
+  console.log(commentValues);
   return commentValues;
 };

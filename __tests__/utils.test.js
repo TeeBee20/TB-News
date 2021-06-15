@@ -10,6 +10,7 @@ const {
   formatUserData,
   formatArticleData,
   formatCommentData,
+  createArticleId,
 } = require("../db/utils/data-manipulation.js");
 const { seed, articleResults } = require("../db/seeds/seed");
 const request = require("supertest");
@@ -259,214 +260,66 @@ describe("formatTopicData()", () => {
   //     ]);
   // });
 
-  describe.only("formatCommentData", () => {
+  describe("formatCommentData", () => {
     it("returns an array of nested arrays", () => {
       const commentData = [
         {
-          body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
-          belongs_to: "They're not exactly dogs, are they?",
-          created_by: "butter_bridge",
-          votes: 16,
-          created_at: new Date(1586179020000),
-        },
-        {
-          body: "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "butter_bridge",
-          votes: 14,
-          created_at: new Date(1604113380000),
-        },
-        {
-          body: "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: 100,
-          created_at: new Date(1583025180000),
-        },
-        {
-          body: " I carry a log — yes. Is it funny to you? It is not to me.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: -100,
-          created_at: new Date(1582459260000),
-        },
-        {
-          body: "I hate streaming noses",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: 0,
-          created_at: new Date(1604437200000),
+          title: "The vegan carnivore?",
+          topic: "cooking",
+          author: "tickle122",
+          body: "The chef Richard McGeown has faced bigger culinary challenges in his distinguished career than frying a meat patty in a little sunflower oil and butter. But this time the eyes and cameras of hundreds of journalists in the room were fixed on the 5oz (140g) pink disc sizzling in his pan, one that had been five years and €250,000 in the making. This was the world’s first proper portion of cultured meat, a beef burger created by Mark Post, professor of physiology, and his team at Maastricht University in the Netherlands. Post (which rhymes with ‘lost’, not ‘ghost’) has been working on in vitro meat (IVM) since 2009. On 5 August this year he presented his cultured beef burger to the world as a ‘proof of concept’. Having shown that the technology works, Post believes that in a decade or so we could see commercial production of meat that has been grown in a lab rather than reared and slaughtered. The comforting illusion that supermarket trays of plastic-wrapped steaks are not pieces of dead animal might become a discomforting reality.",
+          created_at: new Date(1583788860000),
         },
       ];
-      expect(Array.isArray(formatCommentData(commentData))).toBe(true);
-      expect(Array.isArray(formatCommentData(commentData)[0])).toBe(true);
+      const articleObj = {
+        "The vegan carnivore?": 36,
+      };
+      expect(Array.isArray(formatCommentData(commentData, articleObj))).toBe(
+        true
+      );
+      expect(Array.isArray(formatCommentData(commentData, articleObj)[0])).toBe(
+        true
+      );
     });
     test("should return an array of nested arrays from comment object", () => {
       const commentData = [
         {
-          body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
-          belongs_to: "They're not exactly dogs, are they?",
-          created_by: "butter_bridge",
-          votes: 16,
-          created_at: new Date(1586179020000),
-        },
-        {
-          body: "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "butter_bridge",
-          votes: 14,
-          created_at: new Date(1604113380000),
-        },
-        {
-          body: "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: 100,
-          created_at: new Date(1583025180000),
-        },
-        {
-          body: " I carry a log — yes. Is it funny to you? It is not to me.",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: -100,
-          created_at: new Date(1582459260000),
-        },
-        {
-          body: "I hate streaming noses",
-          belongs_to: "Living in the shadow of a great man",
-          created_by: "icellusedkars",
-          votes: 0,
-          created_at: new Date(1604437200000),
+          body: "Test",
+          belongs_to:
+            "The People Tracking Every Touch, Pass And Tackle in the World Cup",
+          created_by: "tickle122",
+          votes: -1,
+          created_at: new Date(1590103140000),
         },
       ];
+      const articleObj = {
+        "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
+      };
+      expect(formatCommentData(commentData, articleObj)).toEqual([
+        ["tickle122", 36, -1, new Date(1590103140000), "Test"],
+      ]);
     });
-    expect(formatCommentData(commentData)).toEqual([
-      [
-        "butter_bridge",
-        "They're not exactly dogs, are they?",
-        16,
-        new Date(1586179020000),
-        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
-      ],
-      [
-        "butter_bridge",
-        "Living in the shadow of a great man",
-        14,
-        new Date(1604113380000),
-        "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        100,
-        new Date(1583025180000),
-        "Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — onyou it works.",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        -100,
-        new Date(1582459260000),
-        " I carry a log — yes. Is it funny to you? It is not to me.",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1604437200000),
-        "I hate streaming noses",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1586642520000),
-        "I hate streaming eyes even more",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1589577540000),
-        "Lobster pot",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1586899140000),
-        "Delicious crackerbreads",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1577848080000),
-        "Superficially charming",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1592641440000),
-        "git push origin master",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1600560600000),
-        "Ambidextrous marsupial",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1583133000000),
-        "Massive intercranial brain haemorrhage",
-      ],
-      [
-        "icellusedkars",
-        "Living in the shadow of a great man",
-        0,
-        new Date(1592220300000),
-        "Fruit pastilles",
-      ],
-      [
-        "icellusedkars",
-        "UNCOVERED: catspiracy to bring down democracy",
-        16,
-        new Date(1591682400000),
-        "What do you see? I have no idea where this will lead us. This place I speak of, is known as the Black Lodge.",
-      ],
-      [
-        "butter_bridge",
-        "UNCOVERED: catspiracy to bring down democracy",
-        1,
-        new Date(1606176480000),
-        "I am 100% sure that we're not completely sure.",
-      ],
-      [
-        "butter_bridge",
-        "A",
-        1,
-        new Date(1602433380000),
-        "This is a bad article name",
-      ],
-      [
-        "icellusedkars",
-        "They're not exactly dogs, are they?",
-        20,
-        new Date(1584205320000),
-        "The owls are not what they seem.",
-      ],
-      [
-        "butter_bridge",
-        "Living in the shadow of a great man",
-        16,
-        new Date(1595294400000),
-        "This morning, I showered for nine minutes.",
-      ],
-    ]);
+    describe.only("createArticleId()", () => {
+      test("Should return article in correct form", () => {
+        const articleData = [
+          {
+            rows: {
+              article_id: 67,
+              title: "Hi",
+              body: "Test",
+              votes: 2,
+              topic: "Hello",
+              author: "Rowling",
+              created_at: new Date(1590103140000),
+            },
+          },
+        ];
+        expect(createArticleId(articleData)).toEqual({
+          Hi: 67,
+        });
+      });
+    });
   });
 });
+// Start by making sure article is correct form, key of rows that is an array. Start with empty array. Receives empty obj back.
+// Start populating array with objects. All objects need title and article id. Check returned object has keys of titles and values of the id's.
