@@ -41,7 +41,7 @@ const seed = async (data) => {
     `CREATE TABLE articles (
       article_id SERIAL PRIMARY KEY NOT NULL,
       title VARCHAR NOT NULL,
-      body VARCHAR,
+      body VARCHAR NOT NULL,
       votes INT DEFAULT 0,
       topic VARCHAR REFERENCES topics(slug),
       author VARCHAR REFERENCES users(username),
@@ -54,11 +54,10 @@ const seed = async (data) => {
       article_id INT REFERENCES articles(article_id),
       votes INT DEFAULT 0,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      body VARCHAR
+      body VARCHAR NOT NULL
     );`);
 
   const topicValues = formatTopicData(topicData);
-  console.log(topicValues);
   const topicInsertStr = format(
     `INSERT INTO topics
   (slug, description)
@@ -66,7 +65,6 @@ const seed = async (data) => {
 
     topicValues
   );
-  console.log(topicInsertStr);
 
   await db.query(topicInsertStr);
 
@@ -91,7 +89,7 @@ const seed = async (data) => {
   await db.query(articleDataStr);
 
   const allFromTable = await db.query("SELECT * FROM articles");
-  const results = createArticleId(allFromTable);
+  const results = createArticleId(allFromTable.rows);
 
   const commentValues = formatCommentData(commentData, results);
   const commentDataStr = format(
@@ -104,4 +102,4 @@ const seed = async (data) => {
   await db.query(commentDataStr);
 };
 
-module.exports = seed;
+module.exports = { seed };

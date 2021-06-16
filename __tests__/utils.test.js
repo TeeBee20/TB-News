@@ -16,16 +16,6 @@ const { seed, articleResults } = require("../db/seeds/seed");
 const request = require("supertest");
 const express = require("express");
 
-// beforeEach(() =>
-//   seed({
-//     articleData,
-//     commentData,
-//     topicData,
-//     userData,
-//   })
-// );
-// afterAll(() => db.end());
-
 describe("formatTopicData()", () => {
   it("returns an array of nested arrays", () => {
     const topicData = [
@@ -188,77 +178,29 @@ describe("formatTopicData()", () => {
       expect(Array.isArray(formatArticleData(articleData))).toBe(true);
       expect(Array.isArray(formatArticleData(articleData)[0])).toBe(true);
     });
+    test("should return an array of nested arrays from article object", () => {
+      const articleData = [
+        {
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at: new Date(1594329060000),
+          votes: 100,
+        },
+      ];
+      expect(formatArticleData(articleData)).toEqual([
+        [
+          "Living in the shadow of a great man",
+          "I find this existence challenging",
+          100,
+          "mitch",
+          "butter_bridge",
+          new Date(1594329060000),
+        ],
+      ]);
+    });
   });
-  // describe("formatUserData()", () => {
-  //   test("should return an array of nested arrays from user object", () => {
-  //     const articleData = [
-  //       {
-  //         title: "Living in the shadow of a great man",
-  //         topic: "mitch",
-  //         author: "butter_bridge",
-  //         body: "I find this existence challenging",
-  //         created_at: new Date(1594329060000),
-  //         votes: 100,
-  //       },
-  //       {
-  //         title: "Sony Vaio; or, The Laptop",
-  //         topic: "mitch",
-  //         author: "icellusedkars",
-  //         body: "Call me Mitchell. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would buy a laptop about a little and see the codey part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to coding as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the laptop. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the the Vaio with me.",
-  //         created_at: new Date(1602828180000),
-  //       },
-  //       {
-  //         title: "Eight pug gifs that remind me of mitch",
-  //         topic: "mitch",
-  //         author: "icellusedkars",
-  //         body: "some gifs",
-  //         created_at: new Date(1604394720000),
-  //       },
-  //       {
-  //         title: "Student SUES Mitch!",
-  //         topic: "mitch",
-  //         author: "rogersop",
-  //         body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
-  //         created_at: new Date(1588731240000),
-  //       },
-  //     ];
-  //   });
-  //   expect(formatUserData(userData)).toEqual(
-  //     [
-  //       [
-  //         'Living in the shadow of a great man',
-  //         'I find this existence challenging',
-  //         100,
-  //         'mitch',
-  //         'butter_bridge',
-  //         2020-07-09T21:11:00.000Z
-  //       ],
-  //       [
-  //         'Sony Vaio; or, The Laptop',
-  //         'Call me Mitchell. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would buy a laptop about a little and see the codey part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to coding as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the laptop. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the the Vaio with me.',
-  //         undefined,
-  //         'mitch',
-  //         'icellusedkars',
-  //         2020-10-16T06:03:00.000Z
-  //       ],
-  //       [
-  //         'Eight pug gifs that remind me of mitch',
-  //         'some gifs',
-  //         undefined,
-  //         'mitch',
-  //         'icellusedkars',
-  //         2020-11-03T09:12:00.000Z
-  //       ],
-  //       [
-  //         'Student SUES Mitch!',
-  //         'We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages',
-  //         undefined,
-  //         'mitch',
-  //         'rogersop',
-  //         2020-05-06T02:14:00.000Z
-  //       ]
-  //     ]);
-  // });
 
   describe("formatCommentData", () => {
     it("returns an array of nested arrays", () => {
@@ -299,22 +241,24 @@ describe("formatTopicData()", () => {
         ["tickle122", 36, -1, new Date(1590103140000), "Test"],
       ]);
     });
-    describe.only("createArticleId()", () => {
+    describe("createArticleId()", () => {
+      test("returns empty object when given empty array", () => {
+        const articleResult = [];
+        expect(createArticleId(articleResult)).toEqual({});
+      });
       test("Should return article in correct form", () => {
-        const articleData = [
+        const articleResult = [
           {
-            rows: {
-              article_id: 67,
-              title: "Hi",
-              body: "Test",
-              votes: 2,
-              topic: "Hello",
-              author: "Rowling",
-              created_at: new Date(1590103140000),
-            },
+            article_id: 67,
+            title: "Hi",
+            body: "Test",
+            votes: 2,
+            topic: "Hello",
+            author: "Rowling",
+            created_at: new Date(1590103140000),
           },
         ];
-        expect(createArticleId(articleData)).toEqual({
+        expect(createArticleId(articleResult)).toEqual({
           Hi: 67,
         });
       });

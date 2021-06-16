@@ -37,9 +37,11 @@ exports.formatArticleData = (articleData) => {
 
 exports.createArticleId = (articleResult) => {
   const articleObj = {};
-  articleResult.rows.forEach((article) => {
-    articleObj[article.title] = article.article_id;
+
+  articleResult.forEach((article) => {
+    return (articleObj[article.title] = article.article_id);
   });
+
   return articleObj;
 };
 
