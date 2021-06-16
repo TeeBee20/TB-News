@@ -58,12 +58,15 @@ const seed = async (data) => {
     );`);
 
   const topicValues = formatTopicData(topicData);
+  console.log(topicValues);
   const topicInsertStr = format(
     `INSERT INTO topics
   (slug, description)
   VALUES %L RETURNING *;`,
+
     topicValues
   );
+  console.log(topicInsertStr);
 
   await db.query(topicInsertStr);
 
@@ -88,7 +91,6 @@ const seed = async (data) => {
   await db.query(articleDataStr);
 
   const allFromTable = await db.query("SELECT * FROM articles");
-
   const results = createArticleId(allFromTable);
 
   const commentValues = formatCommentData(commentData, results);

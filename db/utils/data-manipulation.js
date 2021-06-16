@@ -54,6 +54,6 @@ exports.formatCommentData = (commentData, articleObj) => {
       comment.body,
     ];
   });
-  console.log(commentValues);
+
   return commentValues;
 };
