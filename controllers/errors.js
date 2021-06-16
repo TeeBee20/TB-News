@@ -6,6 +6,14 @@ exports.handleCustomErrors = (err, req, res, next) => {
   }
 };
 
+exports.handleInvalidPaths = (err, req, res, next) => {
+  if (err.status === 404) {
+    res.status(err.status).send({ msg: "not found" });
+  } else {
+    next(err);
+  }
+};
+
 exports.handlePSQLErrors = (err, req, res, next) => {
   if (err.code === "22P02") {
     res.status(400).send({ msg: "bad request" });
