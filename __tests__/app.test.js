@@ -3,7 +3,6 @@ const testData = require("../db/data/test-data/index.js");
 const { seed } = require("../db/seeds/seed.js");
 const request = require("supertest");
 const app = require("../app");
-const { string } = require("pg-format");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -98,7 +97,7 @@ describe("GET - /api/articles/:article_id", () => {
         expect(body.msg).toBe("bad request");
       });
   });
-  xtest("404: returns error for article id that does not exist", () => {
+  test("404: returns error for article id that does not exist", () => {
     return request(app)
       .get("/api/articles/9000")
       .expect(404)
@@ -108,9 +107,26 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
-describe("PATCH - /api/articles/:article_id", () => {
+describe.only("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article", () => {
-    request(app).patch("/api/articles/2");
+    return request(app)
+      .patch("/api/articles/12")
+      .expect(200)
+      .send({ inc_votes: 10 })
+      .then((response) => {
+        const { body } = response;
+        expect(body.article[0]).toEqual(
+          expect.objectContaining({
+            author: "butter_bridge",
+            title: "Moustache",
+            article_id: 12,
+            body: "Have you seen the size of that thing?",
+            topic: "mitch",
+            created_at: "2020-10-11T11:24:00.000Z",
+            votes: 10,
+            comment_count: 0,
+          })
+        );
+      });
   });
 });
-//finish writing test for patch//

@@ -23,7 +23,7 @@ exports.selectArticleById = async (articleId) => {
     GROUP BY articles.article_id;`,
     [articleId]
   );
-  console.log(articles.rows);
+
   if (articles.rows.length === 0) {
     checkExists("articles", "article_id", articleId).catch((err) => {
       return Promise.reject(err);
@@ -31,4 +31,27 @@ exports.selectArticleById = async (articleId) => {
   }
 
   return articles.rows;
+};
+
+exports.updateArticleVotesById = async (articleId, newVotes) => {
+  const updatedArticle = await db.query(
+    `UPDATE articles
+  SET 
+  votes = votes + $1
+  WHERE article_id = $2
+  RETURNING *;`,
+    [newVotes, articleId]
+  );
+  const articleWithVotes = await db.query(
+    `SELECT articles.*, 
+  COUNT(comment_id) :: INT AS comment_count 
+  FROM articles 
+  LEFT JOIN comments 
+  ON comments.article_id = articles.article_id
+  WHERE articles.article_id = $1 
+  GROUP BY articles.article_id;`,
+    [articleId]
+  );
+
+  return articleWithVotes.rows;
 };
