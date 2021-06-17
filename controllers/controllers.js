@@ -13,8 +13,17 @@ exports.getArticleById = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const article = await selectArticleById(article_id);
-    console.log(article.rows);
-    res.status(200).send({ article: article.rows });
+    res.status(200).send({ article: article });
+  } catch (err) {
+    // console.log(err, "<< in catch block");
+    next(err);
+  }
+};
+
+exports.patchArticleById = async (req, res, next) => {
+  try {
+    const { article_id } = req.params;
+    console.log(req.params, "<< req body");
   } catch (err) {
     next(err);
   }

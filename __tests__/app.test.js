@@ -82,11 +82,35 @@ describe("GET - /api/articles/:article_id", () => {
             article_id: expect.any(Number),
             body: expect.any(String),
             topic: expect.any(String),
-            created_at: expect.anything(),
+            created_at: expect.any(String),
             votes: expect.any(Number),
             comment_count: expect.any(Number),
           })
         );
       });
   });
+  test("400: returns error for invalid article id", () => {
+    return request(app)
+      .get("/api/articles/dog")
+      .expect(400)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  xtest("404: returns error for article id that does not exist", () => {
+    return request(app)
+      .get("/api/articles/9000")
+      .expect(404)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("not found");
+      });
+  });
 });
+describe("PATCH - /api/articles/:article_id", () => {
+  test("200: returns updated article", () => {
+    request(app).patch("/api/articles/2");
+  });
+});
+//finish writing test for patch//

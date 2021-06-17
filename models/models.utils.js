@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const format = require("pg-format");
+const { query } = require("../db/connection");
 
 const checkQuery = async (table, column, value) => {
   const queryStr = format(`SELECT * FROM %I WHERE %I = $1;`, table, column);
@@ -10,4 +11,14 @@ const checkQuery = async (table, column, value) => {
   }
 };
 
-module.exports = checkQuery;
+const checkExists = async (table, column, value) => {
+  const queryStr = format(`SELECT * FROM %I WHERE %I = $1`, table, column);
+  const results = await db.query(queryStr, [value]);
+  console.log(results.rows);
+  if (results.rows.length === 0) {
+    console.log("here");
+    return Promise.reject({ status: 404, msg: "not found" });
+  }
+};
+
+module.exports = { checkQuery, checkExists };

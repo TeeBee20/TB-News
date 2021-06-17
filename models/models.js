@@ -1,5 +1,6 @@
 const db = require("../db/connection");
-const checkQuery = require("./models.utils");
+const { checkQuery, checkExists } = require("./models.utils");
+const format = require("pg-format");
 
 exports.selectTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
@@ -11,11 +12,23 @@ exports.selectTopics = async () => {
   return result;
 };
 
-exports.selectArticleById = async (article_id) => {
-  const result = await db.query(
-    `SELECT *, COUNT() FROM articles WHERE article_id = $1;`,
-    [article_id]
+exports.selectArticleById = async (articleId) => {
+  const articles = await db.query(
+    `SELECT articles.*, 
+    COUNT(comment_id) :: INT AS comment_count 
+    FROM articles 
+    LEFT JOIN comments 
+    ON comments.article_id = articles.article_id
+    WHERE articles.article_id = $1 
+    GROUP BY articles.article_id;`,
+    [articleId]
   );
+  console.log(articles.rows);
+  if (articles.rows.length === 0) {
+    checkExists("articles", "article_id", articleId).catch((err) => {
+      return Promise.reject(err);
+    });
+  }
 
-  return result;
+  return articles.rows;
 };
