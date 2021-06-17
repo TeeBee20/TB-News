@@ -34,10 +34,12 @@ exports.selectArticleById = async (articleId) => {
 };
 
 exports.updateArticleVotesById = async (articleId, newVotes) => {
+  const mathStr = Math.sign(newVotes) === -1 ? "- $1" : "+ $1";
+  console.log(mathStr);
   const updatedArticle = await db.query(
     `UPDATE articles
   SET 
-  votes = votes + $1
+  votes = votes ${mathStr}
   WHERE article_id = $2
   RETURNING *;`,
     [newVotes, articleId]

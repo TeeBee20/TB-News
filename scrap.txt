@@ -1,11 +1,1 @@
 You are now connected to database "nc_news_test" as user "tiffanybrooks".
- article_id |   title   |                 body                  | votes | topic |    author     |     created_at      
-------------+-----------+---------------------------------------+-------+-------+---------------+---------------------
-         12 | Moustache | Have you seen the size of that thing? |     0 | mitch | butter_bridge | 2020-10-11 12:24:00
-(1 row)
-
- article_id |   title   |                 body                  | votes | topic |    author     |     created_at      | comment_count 
-------------+-----------+---------------------------------------+-------+-------+---------------+---------------------+---------------
-         12 | Moustache | Have you seen the size of that thing? |     0 | mitch | butter_bridge | 2020-10-11 12:24:00 |             0
-(1 row)
-

@@ -108,7 +108,7 @@ describe("GET - /api/articles/:article_id", () => {
   });
 });
 describe.only("PATCH - /api/articles/:article_id", () => {
-  test("200: returns updated article", () => {
+  test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
       .patch("/api/articles/12")
       .expect(200)
@@ -125,6 +125,27 @@ describe.only("PATCH - /api/articles/:article_id", () => {
             created_at: "2020-10-11T11:24:00.000Z",
             votes: 10,
             comment_count: 0,
+          })
+        );
+      });
+  });
+  test("200: returns updated article with decremented votes when given negative number", () => {
+    return request(app)
+      .patch("/api/articles/5")
+      .expect(200)
+      .send({ inc_votes: -20 })
+      .then((response) => {
+        const { body } = response;
+        expect(body.article[0]).toEqual(
+          expect.objectContaining({
+            author: "rogersop",
+            title: "UNCOVERED: catspiracy to bring down democracy",
+            article_id: 5,
+            body: "Bastet walks amongst us, and the cats are taking arms!",
+            topic: "cats",
+            created_at: "2020-08-03 14:14:00",
+            votes: 10,
+            comment_count: 2,
           })
         );
       });
