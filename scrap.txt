@@ -1,1 +1,6 @@
 You are now connected to database "nc_news_test" as user "tiffanybrooks".
+ article_id |                     title                     |                          body                          | votes | topic |  author  |     created_at      
+------------+-----------------------------------------------+--------------------------------------------------------+-------+-------+----------+---------------------
+          5 | UNCOVERED: catspiracy to bring down democracy | Bastet walks amongst us, and the cats are taking arms! |    20 | cats  | rogersop | 2020-08-03 14:14:00
+(1 row)
+

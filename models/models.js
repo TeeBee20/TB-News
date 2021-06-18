@@ -34,16 +34,19 @@ exports.selectArticleById = async (articleId) => {
 };
 
 exports.updateArticleVotesById = async (articleId, newVotes) => {
-  const mathStr = Math.sign(newVotes) === -1 ? "- $1" : "+ $1";
-  console.log(mathStr);
+  const operationStr = Math.sign(newVotes) === -1 ? "-" : "+";
+  const votesVal = Math.abs(newVotes);
+  const queryOperation = operationStr + ` ${votesVal}`;
+
   const updatedArticle = await db.query(
     `UPDATE articles
   SET 
-  votes = votes ${mathStr}
-  WHERE article_id = $2
+  votes = votes ${queryOperation}
+  WHERE article_id = $1
   RETURNING *;`,
-    [newVotes, articleId]
+    [articleId]
   );
+
   const articleWithVotes = await db.query(
     `SELECT articles.*, 
   COUNT(comment_id) :: INT AS comment_count 

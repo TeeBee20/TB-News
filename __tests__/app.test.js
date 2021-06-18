@@ -133,7 +133,7 @@ describe.only("PATCH - /api/articles/:article_id", () => {
     return request(app)
       .patch("/api/articles/5")
       .expect(200)
-      .send({ inc_votes: -20 })
+      .send({ inc_votes: -10 })
       .then((response) => {
         const { body } = response;
         expect(body.article[0]).toEqual(
@@ -143,8 +143,8 @@ describe.only("PATCH - /api/articles/:article_id", () => {
             article_id: 5,
             body: "Bastet walks amongst us, and the cats are taking arms!",
             topic: "cats",
-            created_at: "2020-08-03 14:14:00",
-            votes: 10,
+            created_at: "2020-08-03T13:14:00.000Z",
+            votes: -10,
             comment_count: 2,
           })
         );
