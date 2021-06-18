@@ -19,7 +19,7 @@ exports.getTopics = async (req, res, next) => {
 exports.getArticles = async (req, res, next) => {
   try {
     const { sort_by = "date" } = req.query;
-    const articles = await selectAllArticles();
+    const articles = await selectAllArticles(sort_by);
     res.status(200).send({ articles: articles });
   } catch (err) {
     next(err);

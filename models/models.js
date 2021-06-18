@@ -12,13 +12,26 @@ exports.selectTopics = async () => {
   return result;
 };
 
-exports.selectAllArticles = async () => {
-  const articles = await db.query(`SELECT articles.*, 
+exports.selectAllArticles = async (sortBy) => {
+  const validCols = [
+    "article_id",
+    "title",
+    "body",
+    "votes",
+    "topic",
+    "author",
+    "created_at",
+  ];
+
+  const articles = await db.query(
+    `SELECT articles.*, 
   COUNT(comment_id) :: INT AS comment_count 
   FROM articles 
   LEFT JOIN comments 
   ON comments.article_id = articles.article_id GROUP BY articles.article_id
-  ORDER BY created_at DESC;`);
+  ORDER BY $1 DESC;`,
+    [validCols.includes(sortBy) ? sortBy : "created_at"]
+  );
 
   return articles.rows;
 };
