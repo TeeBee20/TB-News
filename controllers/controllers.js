@@ -1,5 +1,8 @@
+const { sort } = require("../db/data/test-data/articles");
+const articles = require("../db/data/test-data/articles");
 const {
   selectTopics,
+  selectAllArticles,
   selectArticleById,
   updateArticleVotesById,
 } = require("../models/models");
@@ -13,13 +16,22 @@ exports.getTopics = async (req, res, next) => {
   }
 };
 
+exports.getArticles = async (req, res, next) => {
+  try {
+    const { sort_by = "date" } = req.query;
+    const articles = await selectAllArticles();
+    res.status(200).send({ articles: articles });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getArticleById = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const article = await selectArticleById(article_id);
     res.status(200).send({ article: article });
   } catch (err) {
-    // console.log(err, "<< in catch block");
     next(err);
   }
 };

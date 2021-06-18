@@ -3,6 +3,7 @@ const testData = require("../db/data/test-data/index.js");
 const { seed } = require("../db/seeds/seed.js");
 const request = require("supertest");
 const app = require("../app");
+require("jest-sorted");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -107,7 +108,8 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
-describe.only("PATCH - /api/articles/:article_id", () => {
+//first test works only when patch is tested on its own//
+describe("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
       .patch("/api/articles/12")
@@ -178,6 +180,43 @@ describe.only("PATCH - /api/articles/:article_id", () => {
       .then((response) => {
         const { body } = response;
         expect(body.msg).toBe("bad request");
+      });
+  });
+});
+describe.only("GET - /api/articles", () => {
+  it("200: returns an array of all article objects on an articles key sorted by date", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(Array.isArray(articles)).toBe(true);
+        articles.forEach((article) => {
+          expect(typeof article).toBe("object");
+          expect(Array.isArray(article)).toBe(false);
+          expect(article).toEqual(
+            expect.objectContaining({
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              topic: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(Number),
+            })
+          );
+        });
+        expect(articles.length).toBe(12);
+        expect(articles).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+  it.only("200: returns an array of articles sorted by specified column name", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(articles).toBeSortedBy("title", { descending: true });
       });
   });
 });

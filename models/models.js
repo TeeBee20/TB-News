@@ -12,6 +12,17 @@ exports.selectTopics = async () => {
   return result;
 };
 
+exports.selectAllArticles = async () => {
+  const articles = await db.query(`SELECT articles.*, 
+  COUNT(comment_id) :: INT AS comment_count 
+  FROM articles 
+  LEFT JOIN comments 
+  ON comments.article_id = articles.article_id GROUP BY articles.article_id
+  ORDER BY created_at DESC;`);
+
+  return articles.rows;
+};
+
 exports.selectArticleById = async (articleId) => {
   const articles = await db.query(
     `SELECT articles.*, 
@@ -25,9 +36,7 @@ exports.selectArticleById = async (articleId) => {
   );
 
   if (articles.rows.length === 0) {
-    checkExists("articles", "article_id", articleId).catch((err) => {
-      return Promise.reject(err);
-    });
+    checkExists("articles", "article_id", articleId);
   }
 
   return articles.rows;
