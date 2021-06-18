@@ -150,4 +150,34 @@ describe.only("PATCH - /api/articles/:article_id", () => {
         );
       });
   });
+  test('400: returns "bad request" error when no inc_votes on request body', () => {
+    return request(app)
+      .patch("/api/articles/5")
+      .expect(400)
+      .send({ inc_votes: undefined })
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test('400: returns "bad request" error when given invalid inc_votes value', () => {
+    return request(app)
+      .patch("/api/articles/5")
+      .expect(400)
+      .send({ inc_votes: "dog" })
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test('400: returns "bad request" error when given request body with other properties', () => {
+    return request(app)
+      .patch("/api/articles/5")
+      .expect(400)
+      .send({ inc_votes: 10, name: "Mitch" })
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
 });

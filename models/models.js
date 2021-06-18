@@ -34,6 +34,10 @@ exports.selectArticleById = async (articleId) => {
 };
 
 exports.updateArticleVotesById = async (articleId, newVotes) => {
+  if (!newVotes) {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
+
   const operationStr = Math.sign(newVotes) === -1 ? "-" : "+";
   const votesVal = Math.abs(newVotes);
   const queryOperation = operationStr + ` ${votesVal}`;
