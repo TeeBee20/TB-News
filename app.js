@@ -11,6 +11,7 @@ const {
   getArticleById,
   getArticles,
   patchArticleById,
+  seedController,
 } = require("./controllers/controllers");
 
 const app = express();
@@ -23,6 +24,7 @@ app.get("/api/articles", getArticles);
 app.patch("/api/articles/:article_id", patchArticleById);
 
 app.all("*", handleInvalidPaths);
+app.get("/api/seed", seedController);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);

@@ -1,5 +1,7 @@
 const { sort } = require("../db/data/test-data/articles");
 const articles = require("../db/data/test-data/articles");
+const seed = require("../db/seeds/seed");
+const devData = require("../db/data/development-data");
 const {
   selectTopics,
   selectAllArticles,
@@ -51,4 +53,10 @@ exports.patchArticleById = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.seedController = (req, res, next) => {
+  seed(devData).then((response) => {
+    res.status(200).send({ msg: "Seeded OK" });
+  });
 };
