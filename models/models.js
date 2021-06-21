@@ -1,6 +1,7 @@
 const db = require("../db/connection");
 const { checkQuery, checkExists } = require("./models.utils");
 const format = require("pg-format");
+const { sort } = require("../db/data/test-data/articles");
 
 exports.selectTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
@@ -12,7 +13,7 @@ exports.selectTopics = async () => {
   return result;
 };
 
-exports.selectAllArticles = async (sortBy) => {
+exports.selectAllArticles = async (sortBy = "created_at", order = "desc") => {
   const validCols = [
     "article_id",
     "title",
@@ -22,6 +23,11 @@ exports.selectAllArticles = async (sortBy) => {
     "author",
     "created_at",
   ];
+  const validOrder = ["asc", "desc"];
+
+  if (!validCols.includes(sortBy) || !validOrder.includes(order)) {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
 
   const articles = await db.query(
     `SELECT articles.*, 
@@ -29,8 +35,7 @@ exports.selectAllArticles = async (sortBy) => {
   FROM articles 
   LEFT JOIN comments 
   ON comments.article_id = articles.article_id GROUP BY articles.article_id
-  ORDER BY $1 DESC;`,
-    [validCols.includes(sortBy) ? sortBy : "created_at"]
+  ORDER BY ${sortBy} ${order.toUpperCase()};`
   );
 
   return articles.rows;

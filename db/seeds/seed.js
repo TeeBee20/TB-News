@@ -39,9 +39,9 @@ const seed = async (data) => {
 
   await db.query(
     `CREATE TABLE articles (
-      article_id SERIAL PRIMARY KEY NOT NULL,
+      article_id SERIAL PRIMARY KEY,
       title VARCHAR NOT NULL,
-      body VARCHAR NOT NULL,
+      body TEXT NOT NULL,
       votes INT DEFAULT 0,
       topic VARCHAR REFERENCES topics(slug),
       author VARCHAR REFERENCES users(username),
@@ -49,19 +49,20 @@ const seed = async (data) => {
     );`
   );
   await db.query(`CREATE TABLE comments (
-      comment_id SERIAL PRIMARY KEY NOT NULL,
+      comment_id SERIAL PRIMARY KEY,
       author VARCHAR REFERENCES users(username),
       article_id INT REFERENCES articles(article_id),
       votes INT DEFAULT 0,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      body VARCHAR NOT NULL
+      body TEXT NOT NULL
     );`);
+  console.log("in the seed");
 
   const topicValues = formatTopicData(topicData);
   const topicInsertStr = format(
     `INSERT INTO topics
-  (slug, description)
-  VALUES %L RETURNING *;`,
+    (slug, description)
+    VALUES %L RETURNING *;`,
 
     topicValues
   );
@@ -71,8 +72,8 @@ const seed = async (data) => {
   const userValues = formatUserData(userData);
   const userDataStr = format(
     `INSERT INTO users
-    (username, avatar_url, name)
-    VALUES %L RETURNING *;`,
+      (username, avatar_url, name)
+      VALUES %L RETURNING *;`,
     userValues
   );
 
@@ -81,8 +82,8 @@ const seed = async (data) => {
   const articleValues = formatArticleData(articleData);
   const articleDataStr = format(
     `INSERT INTO articles
-        (title, body, votes, topic, author, created_at)
-        VALUES %L RETURNING *;`,
+          (title, body, votes, topic, author, created_at)
+          VALUES %L RETURNING *;`,
     articleValues
   );
 
@@ -94,12 +95,12 @@ const seed = async (data) => {
   const commentValues = formatCommentData(commentData, results);
   const commentDataStr = format(
     `INSERT INTO comments
-     (author, article_id, votes, created_at, body)
-     VALUES %L RETURNING *;`,
+       (author, article_id, votes, created_at, body)
+       VALUES %L RETURNING *;`,
     commentValues
   );
 
-  await db.query(commentDataStr);
+  await db.query(commentDataStr).catch((err) => console.log(err));
 };
 
 module.exports = seed;

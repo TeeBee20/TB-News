@@ -210,7 +210,7 @@ describe.only("GET - /api/articles", () => {
         expect(articles).toBeSortedBy("created_at", { descending: true });
       });
   });
-  it.only("200: returns an array of articles sorted by specified column name", () => {
+  it("200: returns an array of articles sorted by specified column name", () => {
     return request(app)
       .get("/api/articles?sort_by=title")
       .expect(200)
@@ -219,4 +219,44 @@ describe.only("GET - /api/articles", () => {
         expect(articles).toBeSortedBy("title", { descending: true });
       });
   });
+  it("200: returns an array of articles sorted by specified column name", () => {
+    return request(app)
+      .get("/api/articles?sort_by=topic")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(articles).toBeSortedBy("topic", { descending: true });
+      });
+  });
+  it("200: returns an array of articles sorted by specified order given when no sort_by is given", () => {
+    return request(app)
+      .get("/api/articles?order=asc")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(articles).toBeSortedBy("created_at", { descending: false });
+      });
+  });
+  it("200: returns an array of articles sorted by specified column name and order", () => {
+    return request(app)
+      .get("/api/articles?sort_by=topic&order=asc")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(articles).toBeSortedBy("topic", { descending: false });
+      });
+  });
+  it("200: returns an array of articles filtered by given topic, with default sorted by and order", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        articles.forEach((article) => {
+          expect(article.slug).toBe("mitch");
+        });
+        expect(articles).toBeSortedBy("created_at", { descending: true });
+      });
+  });
 });
+//finish working on topic query//
