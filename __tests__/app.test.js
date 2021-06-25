@@ -253,7 +253,7 @@ describe.only("GET - /api/articles", () => {
       .then((response) => {
         const { articles } = response.body;
         articles.forEach((article) => {
-          expect(article.slug).toBe("mitch");
+          expect(article.topic).toBe("mitch");
         });
         expect(articles).toBeSortedBy("created_at", { descending: true });
       });

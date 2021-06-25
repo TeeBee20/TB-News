@@ -56,7 +56,6 @@ const seed = async (data) => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       body TEXT NOT NULL
     );`);
-  console.log("in the seed");
 
   const topicValues = formatTopicData(topicData);
   const topicInsertStr = format(

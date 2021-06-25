@@ -13,7 +13,11 @@ exports.selectTopics = async () => {
   return result;
 };
 
-exports.selectAllArticles = async (sortBy = "created_at", order = "desc") => {
+exports.selectAllArticles = async (
+  sortBy = "created_at",
+  order = "desc",
+  topic
+) => {
   const validCols = [
     "article_id",
     "title",
@@ -24,6 +28,7 @@ exports.selectAllArticles = async (sortBy = "created_at", order = "desc") => {
     "created_at",
   ];
   const validOrder = ["asc", "desc"];
+  const validTopics = ["mitch", "cats", "paper"];
 
   if (!validCols.includes(sortBy) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, msg: "bad request" });
@@ -37,6 +42,14 @@ exports.selectAllArticles = async (sortBy = "created_at", order = "desc") => {
   ON comments.article_id = articles.article_id GROUP BY articles.article_id
   ORDER BY ${sortBy} ${order.toUpperCase()};`
   );
+
+  if (topic && validTopics.includes(topic)) {
+    const resultsByTopic = articles.rows.filter((obj) => {
+      return obj.topic === topic;
+    });
+
+    return resultsByTopic;
+  }
 
   return articles.rows;
 };
