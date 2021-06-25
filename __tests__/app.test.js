@@ -258,5 +258,42 @@ describe.only("GET - /api/articles", () => {
         expect(articles).toBeSortedBy("created_at", { descending: true });
       });
   });
+  it("200: returns an empty array when given valid topic that has no articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(Array.isArray(articles)).toBe(true);
+        expect(articles.length).toBe(0);
+      });
+  });
+  it("400: returns error when given invalid sort_by query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=teddy")
+      .expect(400)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  it("400: returns error when given invalid order query", () => {
+    return request(app)
+      .get("/api/articles?order=left")
+      .expect(400)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  it("404: returns error when given non-existent topic query", () => {
+    return request(app)
+      .get("/api/articles?topic=apple")
+      .expect(404)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("not found");
+      });
+  });
 });
 //finish working on topic query//

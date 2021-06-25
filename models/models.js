@@ -34,6 +34,10 @@ exports.selectAllArticles = async (
     return Promise.reject({ status: 400, msg: "bad request" });
   }
 
+  if (topic && !validTopics.includes(topic)) {
+    return Promise.reject({ status: 404, msg: "not found" });
+  }
+
   const articles = await db.query(
     `SELECT articles.*, 
   COUNT(comment_id) :: INT AS comment_count 
@@ -43,7 +47,7 @@ exports.selectAllArticles = async (
   ORDER BY ${sortBy} ${order.toUpperCase()};`
   );
 
-  if (topic && validTopics.includes(topic)) {
+  if (topic) {
     const resultsByTopic = articles.rows.filter((obj) => {
       return obj.topic === topic;
     });
