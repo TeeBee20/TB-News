@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const apiRouter = require("./routers/api-router");
 const cors = require("cors");
 const {
@@ -16,7 +17,6 @@ const {
   seedController,
 } = require("./controllers/controllers");
 
-const app = express();
 app.use(cors());
 app.use(express.json());
 

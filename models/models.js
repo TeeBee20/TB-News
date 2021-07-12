@@ -77,6 +77,10 @@ exports.selectArticleById = async (articleId) => {
   return articles.rows;
 };
 
+exports.selectCommentsByArticleId = async () => {
+  const comments = await db.query()
+}
+
 exports.updateArticleVotesById = async (articleId, newVotes) => {
   if (!newVotes) {
     return Promise.reject({ status: 400, msg: "bad request" });
