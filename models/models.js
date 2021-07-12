@@ -28,7 +28,14 @@ exports.selectAllArticles = async (
     "created_at",
   ];
   const validOrder = ["asc", "desc"];
-  const validTopics = ["mitch", "cats", "paper"];
+  const validTopics = [
+    "coding",
+    "cooking",
+    "football",
+    "cats",
+    "paper",
+    "mitch",
+  ];
 
   if (!validCols.includes(sortBy) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, msg: "bad request" });
@@ -78,8 +85,8 @@ exports.selectArticleById = async (articleId) => {
 };
 
 exports.selectCommentsByArticleId = async () => {
-  const comments = await db.query()
-}
+  const comments = await db.query();
+};
 
 exports.updateArticleVotesById = async (articleId, newVotes) => {
   if (!newVotes) {
