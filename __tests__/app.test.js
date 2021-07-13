@@ -296,17 +296,62 @@ describe("GET - /api/articles", () => {
       });
   });
 });
-// describe.only("GET - /api/articles/:article_id/comments", () => {
-//   it("200: returns an array of all comment objects on a key of 'comments' when given an article_id", () => {
-//     return request(app)
-//       .get("/api/articles/3/comments")
-//       .expect(200)
-//       .then((response) => {
-//         const { body } = response;
-//         expect(typeof body).toBe("object");
-//         expect(Array.isArray(body.comments)).toBe(true);
-//         expect(typeof body.comments[0]).toBe("object");
-//       });
-//   });
-// });
+describe.only("GET - /api/articles/:article_id/comments", () => {
+  it("200: returns an array of all comment objects on a key of 'comments' when given an article_id", () => {
+    return request(app)
+      .get("/api/articles/9/comments")
+      .expect(200)
+      .then((response) => {
+        const { body } = response;
+        expect(typeof body).toBe("object");
+        expect(Array.isArray(body.comments)).toBe(true);
+        expect(typeof body.comments[0]).toBe("object");
+        expect(body.comments.length).toBe(2);
+      });
+  });
+  it("200: returns array of comment objects in test data from specified article", () => {
+    return request(app)
+      .get("/api/articles/9/comments")
+      .expect(200)
+      .then((response) => {
+        const { body } = response;
+        expect(body.comments).toEqual([
+          {
+            comment_id: 1,
+            author: "butter_bridge",
+            article_id: 9,
+            votes: 16,
+            created_at: expect.any(String),
+            body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+          },
+          {
+            comment_id: 17,
+            author: "icellusedkars",
+            article_id: 9,
+            votes: 20,
+            created_at: expect.any(String),
+            body: "The owls are not what they seem.",
+          },
+        ]);
+      });
+  });
+  it("404: returns error when given article_id that does not exist", () => {
+    return request(app)
+      .get("/api/articles/9000/comments")
+      .expect(404)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("not found");
+      });
+  });
+  it("400: returns error when given invalid path", () => {
+    return request(app)
+      .get("/api/articles/nine/comments")
+      .expect(400)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+});
 //finish working on topic query//
