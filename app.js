@@ -14,6 +14,7 @@ const {
   getArticles,
   getCommentsByArticleId,
   patchArticleById,
+  postCommentArticleId,
   seedController,
 } = require("./controllers/controllers");
 
@@ -26,6 +27,7 @@ app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.patch("/api/articles/:article_id", patchArticleById);
+app.post("/api/articles/:article_id/comments", postCommentArticleId);
 
 app.all("*", handleInvalidPaths);
 app.get("/api/seed", seedController);

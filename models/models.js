@@ -132,3 +132,16 @@ exports.updateArticleVotesById = async (articleId, newVotes) => {
 
   return articleWithVotes.rows;
 };
+
+exports.addCommentByArticleId = async (article_id, username, body) => {
+  //error with timestamp?//
+  const timestamp = Date.now().toString();
+  const commentValue = [username, article_id, 0, timestamp, body];
+  const commentStr = format(
+    `INSERT INTO comments (author, article_id, votes, created_at, body) VALUES %L RETURNING *;`,
+    commentValue
+  );
+  const postedComment = await db.query(commentStr);
+
+  return postedComment.rows;
+};

@@ -296,7 +296,7 @@ describe("GET - /api/articles", () => {
       });
   });
 });
-describe.only("GET - /api/articles/:article_id/comments", () => {
+describe("GET - /api/articles/:article_id/comments", () => {
   it("200: returns an array of all comment objects on a key of 'comments' when given an article_id", () => {
     return request(app)
       .get("/api/articles/9/comments")
@@ -351,6 +351,20 @@ describe.only("GET - /api/articles/:article_id/comments", () => {
       .then((response) => {
         const { body } = response;
         expect(body.msg).toBe("bad request");
+      });
+  });
+});
+describe.only("POST - /api/articles/:article_id/comments", () => {
+  test("200: returns object of posted comment", () => {
+    return request(app)
+      .post("/api/articles/:article_id/comments")
+      .expect(200)
+      .send({ username: "K", body: "this is comment" })
+      .then((response) => {
+        const { body } = response;
+        expect(body.comment[0]).toEqual(
+          expect.objectContaining({ username: "K", body: "this is comment" })
+        );
       });
   });
 });

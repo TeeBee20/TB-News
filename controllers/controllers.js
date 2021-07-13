@@ -8,6 +8,7 @@ const {
   selectArticleById,
   selectCommentsByArticleId,
   updateArticleVotesById,
+  addCommentByArticleId,
 } = require("../models/models");
 
 exports.getTopics = async (req, res, next) => {
@@ -61,6 +62,26 @@ exports.patchArticleById = async (req, res, next) => {
 
     const updatedArticle = await updateArticleVotesById(article_id, inc_votes);
     res.status(200).send({ article: updatedArticle });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.postCommentArticleId = async (req, res, next) => {
+  try {
+    const { article_id } = req.params;
+    const { username, body } = req.body;
+    const reqObjKeys = Object.keys(req.body);
+    if (reqObjKeys.length > 2) {
+      await Promise.reject({ status: 400, msg: "bad request" });
+    }
+
+    const updatedComments = await addCommentByArticleId(
+      article_id,
+      username,
+      body
+    );
+    res.status(200).send({ comment: postedComment });
   } catch (err) {
     next(err);
   }
