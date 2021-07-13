@@ -84,8 +84,13 @@ exports.selectArticleById = async (articleId) => {
   return articles.rows;
 };
 
-exports.selectCommentsByArticleId = async () => {
-  const comments = await db.query();
+exports.selectCommentsByArticleId = async (articleId) => {
+  const comments = await db.query(
+    `SELECT * FROM comments WHERE article_id = $1;`,
+    [articleId]
+  );
+
+  return comments.rows;
 };
 
 exports.updateArticleVotesById = async (articleId, newVotes) => {

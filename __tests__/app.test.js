@@ -183,7 +183,7 @@ describe("PATCH - /api/articles/:article_id", () => {
       });
   });
 });
-describe.only("GET - /api/articles", () => {
+describe("GET - /api/articles", () => {
   it("200: returns an array of all article objects on an articles key sorted by date", () => {
     return request(app)
       .get("/api/articles")
@@ -296,4 +296,17 @@ describe.only("GET - /api/articles", () => {
       });
   });
 });
+// describe.only("GET - /api/articles/:article_id/comments", () => {
+//   it("200: returns an array of all comment objects on a key of 'comments' when given an article_id", () => {
+//     return request(app)
+//       .get("/api/articles/3/comments")
+//       .expect(200)
+//       .then((response) => {
+//         const { body } = response;
+//         expect(typeof body).toBe("object");
+//         expect(Array.isArray(body.comments)).toBe(true);
+//         expect(typeof body.comments[0]).toBe("object");
+//       });
+//   });
+// });
 //finish working on topic query//
