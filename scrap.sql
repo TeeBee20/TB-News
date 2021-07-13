@@ -1,6 +1,3 @@
-\c nc_news_test
+\c nc_news
 
-SELECT comments.* FROM comments 
-    LEFT JOIN articles 
-    ON articles.article_id = comments.article_id
-    WHERE comments.article_id = 1;
+SELECT * FROM comments WHERE article_id = 3;

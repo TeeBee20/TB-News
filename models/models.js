@@ -66,6 +66,10 @@ exports.selectAllArticles = async (
 };
 
 exports.selectArticleById = async (articleId) => {
+  if (typeof articleID !== "number") {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
+
   const articles = await db.query(
     `SELECT articles.*, 
     COUNT(comment_id) :: INT AS comment_count 
@@ -78,7 +82,7 @@ exports.selectArticleById = async (articleId) => {
   );
 
   if (articles.rows.length === 0) {
-    checkExists("articles", "article_id", articleId);
+    return checkExists("articles", "article_id", articleId);
   }
 
   return articles.rows;
@@ -89,6 +93,10 @@ exports.selectCommentsByArticleId = async (articleId) => {
     `SELECT * FROM comments WHERE article_id = $1;`,
     [articleId]
   );
+
+  if (comments.rows.length === 0) {
+    return checkExists("articles", "article_id", articleId);
+  }
 
   return comments.rows;
 };
