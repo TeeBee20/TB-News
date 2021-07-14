@@ -357,15 +357,58 @@ describe("GET - /api/articles/:article_id/comments", () => {
 describe.only("POST - /api/articles/:article_id/comments", () => {
   test("200: returns object of posted comment", () => {
     return request(app)
-      .post("/api/articles/:article_id/comments")
+      .post("/api/articles/9/comments")
       .expect(200)
-      .send({ username: "K", body: "this is comment" })
+      .send({ username: "butter_bridge", body: "this is comment" })
       .then((response) => {
         const { body } = response;
         expect(body.comment[0]).toEqual(
-          expect.objectContaining({ username: "K", body: "this is comment" })
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            author: "butter_bridge",
+            article_id: 9,
+            votes: 0,
+            created_at: expect.any(String),
+            body: "this is comment",
+          })
         );
       });
   });
+  // test("200: adds posted comment to comments", () => {
+  //   return request(app)
+  //     .post("/api/articles/9/comments")
+  //     .expect(200)
+  //     .send({ username: "butter_bridge", body: "this is comment" })
+  //     .then((response) => {
+  //       const { body } = response;
+  //       expect(body.comments.length).toBe(3);
+  //       expect(body.comments).toEqual([
+  //         {
+  //           comment_id: 1,
+  //           author: "butter_bridge",
+  //           article_id: 9,
+  //           votes: 16,
+  //           created_at: expect.any(String),
+  //           body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+  //         },
+  //         {
+  //           comment_id: 17,
+  //           author: "icellusedkars",
+  //           article_id: 9,
+  //           votes: 20,
+  //           created_at: expect.any(String),
+  //           body: "The owls are not what they seem.",
+  //         },
+  //         {
+  //           comment_id: 19,
+  //           author: "butter_bridge",
+  //           article_id: 9,
+  //           votes: 0,
+  //           created_at: expect.any(String),
+  //           body: "this is comment",
+  //         },
+  //       ]);
+  //     });
+  // });
 });
 //finish working on topic query//

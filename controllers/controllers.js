@@ -34,6 +34,7 @@ exports.getCommentsByArticleId = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const comments = await selectCommentsByArticleId(article_id);
+
     res.status(200).send({ comments: comments });
   } catch (err) {
     next(err);
@@ -72,15 +73,16 @@ exports.postCommentArticleId = async (req, res, next) => {
     const { article_id } = req.params;
     const { username, body } = req.body;
     const reqObjKeys = Object.keys(req.body);
-    if (reqObjKeys.length > 2) {
-      await Promise.reject({ status: 400, msg: "bad request" });
-    }
 
-    const updatedComments = await addCommentByArticleId(
-      article_id,
+    if (reqObjKeys.length > 2) {
+      return Promise.reject({ status: 400, msg: "bad request" });
+    }
+    const postedComment = await addCommentByArticleId(
       username,
+      article_id,
       body
     );
+
     res.status(200).send({ comment: postedComment });
   } catch (err) {
     next(err);
