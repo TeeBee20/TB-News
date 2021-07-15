@@ -354,7 +354,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
       });
   });
 });
-describe.only("POST - /api/articles/:article_id/comments", () => {
+describe("POST - /api/articles/:article_id/comments", () => {
   test("200: returns object of posted comment", () => {
     return request(app)
       .post("/api/articles/9/comments")
