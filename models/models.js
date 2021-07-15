@@ -26,6 +26,7 @@ exports.selectAllArticles = async (
     "topic",
     "author",
     "created_at",
+    "comment_count",
   ];
   const validOrder = ["asc", "desc"];
   const validTopics = [
