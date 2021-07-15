@@ -58,7 +58,7 @@ describe("GET - /api/topics", () => {
   //   });
 });
 describe("GET - /api/articles/:article_id", () => {
-  test("200: returns an object with key of article with a value of the specified article object in an array", () => {
+  test.only("200: returns an object with key of article with a value of the specified article object in an array", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
@@ -69,7 +69,7 @@ describe("GET - /api/articles/:article_id", () => {
         expect(typeof body.article[0]).toBe("object");
       });
   });
-  test("200: returns specified article object", () => {
+  test.only("200: returns specified article object", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
