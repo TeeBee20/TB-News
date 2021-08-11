@@ -191,6 +191,7 @@ describe("GET - /api/articles", () => {
       .then((response) => {
         const { articles } = response.body;
         expect(Array.isArray(articles)).toBe(true);
+        expect(articles.length).toBeGreaterThan(0);
         articles.forEach((article) => {
           expect(typeof article).toBe("object");
           expect(Array.isArray(article)).toBe(false);
@@ -252,6 +253,7 @@ describe("GET - /api/articles", () => {
       .expect(200)
       .then((response) => {
         const { articles } = response.body;
+        expect(articles.length).toBeGreaterThan(0);
         articles.forEach((article) => {
           expect(article.topic).toBe("mitch");
         });
