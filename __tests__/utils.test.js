@@ -16,7 +16,7 @@ const { seed, articleResults } = require("../db/seeds/seed");
 const request = require("supertest");
 const express = require("express");
 
-describe.only("formatTopicData()", () => {
+describe("formatTopicData()", () => {
   it("returns an array of nested arrays", () => {
     const topicData = [
       {
@@ -177,6 +177,61 @@ describe("formatUserData()", () => {
       ],
     ]);
   });
+  it("does not mutate user data", () => {
+    const userData = [
+      {
+        username: "butter_bridge",
+        name: "jonny",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+      {
+        username: "icellusedkars",
+        name: "sam",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
+      },
+      {
+        username: "rogersop",
+        name: "paul",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+      },
+      {
+        username: "lurker",
+        name: "do_nothing",
+        avatar_url:
+          "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+      },
+    ];
+    formatTopicData(userData);
+    expect(userData).toEqual([
+      {
+        username: "butter_bridge",
+        name: "jonny",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+      {
+        username: "icellusedkars",
+        name: "sam",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
+      },
+      {
+        username: "rogersop",
+        name: "paul",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+      },
+      {
+        username: "lurker",
+        name: "do_nothing",
+        avatar_url:
+          "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+      },
+    ]);
+  });
 });
 describe("formatArticleData()", () => {
   it("returns an array of nested arrays", () => {
@@ -214,7 +269,11 @@ describe("formatArticleData()", () => {
     expect(Array.isArray(formatArticleData(articleData))).toBe(true);
     expect(Array.isArray(formatArticleData(articleData)[0])).toBe(true);
   });
-  test("should return an array of nested arrays from article object", () => {
+  it("returns an empty array when given an empty array", () => {
+    const articleData = [];
+    expect(formatArticleData(articleData)).toEqual([]);
+  });
+  it("should return an array of nested arrays from article object", () => {
     const articleData = [
       {
         title: "Living in the shadow of a great man",
@@ -234,6 +293,29 @@ describe("formatArticleData()", () => {
         "butter_bridge",
         new Date(1594329060000),
       ],
+    ]);
+  });
+  it("does not mutate article data", () => {
+    const articleData = [
+      {
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        body: "I find this existence challenging",
+        created_at: new Date(1594329060000),
+        votes: 100,
+      },
+    ];
+    formatArticleData(articleData);
+    expect(articleData).toEqual([
+      {
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        body: "I find this existence challenging",
+        created_at: new Date(1594329060000),
+        votes: 100,
+      },
     ]);
   });
 });
