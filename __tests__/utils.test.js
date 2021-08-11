@@ -35,23 +35,21 @@ describe("formatTopicData()", () => {
     expect(Array.isArray(formatTopicData(topicData))).toBe(true);
     expect(Array.isArray(formatTopicData(topicData)[0])).toBe(true);
   });
-  describe("formatTopicData()", () => {
-    test("should return an array of nested arrays from topic object", () => {
-      const topicData = [
-        {
-          description: "The man, the Mitch, the legend",
-          slug: "mitch",
-        },
-        {
-          description: "Not dogs",
-          slug: "cats",
-        },
-        {
-          description: "what books are made of",
-          slug: "paper",
-        },
-      ];
-    });
+  it("should return an array of nested arrays from topic object", () => {
+    const topicData = [
+      {
+        description: "The man, the Mitch, the legend",
+        slug: "mitch",
+      },
+      {
+        description: "Not dogs",
+        slug: "cats",
+      },
+      {
+        description: "what books are made of",
+        slug: "paper",
+      },
+    ];
     expect(formatTopicData(topicData)).toEqual([
       ["mitch", "The man, the Mitch, the legend"],
       ["cats", "Not dogs"],
