@@ -75,7 +75,7 @@ describe("formatTopicData()", () => {
         slug: "paper",
       },
     ];
-    formatTopicData(topicData);
+    expect(formatTopicData(topicData)).not.toBe(topicData);
     expect(topicData).toEqual([
       {
         description: "The man, the Mitch, the legend",
@@ -204,7 +204,7 @@ describe("formatUserData()", () => {
           "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
       },
     ];
-    formatTopicData(userData);
+    expect(formatTopicData(userData)).not.toBe(userData);
     expect(userData).toEqual([
       {
         username: "butter_bridge",
@@ -306,7 +306,7 @@ describe("formatArticleData()", () => {
         votes: 100,
       },
     ];
-    formatArticleData(articleData);
+    expect(formatArticleData(articleData)).not.toBe(articleData);
     expect(articleData).toEqual([
       {
         title: "Living in the shadow of a great man",
@@ -396,7 +396,7 @@ describe("formatCommentData", () => {
     const articleObj = {
       "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
     };
-    formatCommentData(commentData, articleObj);
+    expect(formatCommentData(commentData, articleObj)).not.toBe(commentData);
     expect(commentData).toEqual([
       {
         body: "Test",
@@ -412,12 +412,12 @@ describe("formatCommentData", () => {
     });
   });
 });
-describe.only("createArticleId()", () => {
-  test("returns empty object when given empty array", () => {
+describe("createArticleId()", () => {
+  it("returns empty object when given empty array", () => {
     const articleResult = [];
     expect(createArticleId(articleResult)).toEqual({});
   });
-  test("Should return article in correct form", () => {
+  it("Should return article object with key of article title and value of article id", () => {
     const articleResult = [
       {
         article_id: 67,
@@ -433,6 +433,29 @@ describe.only("createArticleId()", () => {
       Hi: 67,
     });
   });
+  it("does not mutate article result", () => {
+    const articleResult = [
+      {
+        article_id: 67,
+        title: "Hi",
+        body: "Test",
+        votes: 2,
+        topic: "Hello",
+        author: "Rowling",
+        created_at: new Date(1590103140000),
+      },
+    ];
+    expect(createArticleId(articleResult)).not.toBe(articleResult);
+    expect(articleResult).toEqual([
+      {
+        article_id: 67,
+        title: "Hi",
+        body: "Test",
+        votes: 2,
+        topic: "Hello",
+        author: "Rowling",
+        created_at: new Date(1590103140000),
+      },
+    ]);
+  });
 });
-// Start by making sure article is correct form, key of rows that is an array. Start with empty array. Receives empty obj back.
-// Start populating array with objects. All objects need title and article id. Check returned object has keys of titles and values of the id's.
