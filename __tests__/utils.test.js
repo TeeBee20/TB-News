@@ -319,20 +319,20 @@ describe("formatArticleData()", () => {
     ]);
   });
 });
-
 describe("formatCommentData", () => {
   it("returns an array of nested arrays", () => {
     const commentData = [
       {
-        title: "The vegan carnivore?",
-        topic: "cooking",
-        author: "tickle122",
-        body: "The chef Richard McGeown has faced bigger culinary challenges in his distinguished career than frying a meat patty in a little sunflower oil and butter. But this time the eyes and cameras of hundreds of journalists in the room were fixed on the 5oz (140g) pink disc sizzling in his pan, one that had been five years and €250,000 in the making. This was the world’s first proper portion of cultured meat, a beef burger created by Mark Post, professor of physiology, and his team at Maastricht University in the Netherlands. Post (which rhymes with ‘lost’, not ‘ghost’) has been working on in vitro meat (IVM) since 2009. On 5 August this year he presented his cultured beef burger to the world as a ‘proof of concept’. Having shown that the technology works, Post believes that in a decade or so we could see commercial production of meat that has been grown in a lab rather than reared and slaughtered. The comforting illusion that supermarket trays of plastic-wrapped steaks are not pieces of dead animal might become a discomforting reality.",
-        created_at: new Date(1583788860000),
+        body: "Test",
+        belongs_to:
+          "The People Tracking Every Touch, Pass And Tackle in the World Cup",
+        created_by: "tickle122",
+        votes: -1,
+        created_at: new Date(1590103140000),
       },
     ];
     const articleObj = {
-      "The vegan carnivore?": 36,
+      "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
     };
     expect(Array.isArray(formatCommentData(commentData, articleObj))).toBe(
       true
@@ -341,7 +341,30 @@ describe("formatCommentData", () => {
       true
     );
   });
-  test("should return an array of nested arrays from comment object", () => {
+  it("returns an empty array when given an empty array", () => {
+    const commentData = [];
+    const articleObj = {
+      "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
+    };
+    expect(formatCommentData(commentData, articleObj)).toEqual([]);
+  });
+  it("returns undefined value for article id when given empty article object", () => {
+    const commentData = [
+      {
+        body: "Test",
+        belongs_to:
+          "The People Tracking Every Touch, Pass And Tackle in the World Cup",
+        created_by: "tickle122",
+        votes: -1,
+        created_at: new Date(1590103140000),
+      },
+    ];
+    const articleObj = {};
+    expect(formatCommentData(commentData, articleObj)).toEqual([
+      ["tickle122", undefined, -1, new Date(1590103140000), "Test"],
+    ]);
+  });
+  it("should return an array of nested arrays from comment object", () => {
     const commentData = [
       {
         body: "Test",
@@ -359,26 +382,55 @@ describe("formatCommentData", () => {
       ["tickle122", 36, -1, new Date(1590103140000), "Test"],
     ]);
   });
-  describe("createArticleId()", () => {
-    test("returns empty object when given empty array", () => {
-      const articleResult = [];
-      expect(createArticleId(articleResult)).toEqual({});
+  it("does not mutate comment data or article object", () => {
+    const commentData = [
+      {
+        body: "Test",
+        belongs_to:
+          "The People Tracking Every Touch, Pass And Tackle in the World Cup",
+        created_by: "tickle122",
+        votes: -1,
+        created_at: new Date(1590103140000),
+      },
+    ];
+    const articleObj = {
+      "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
+    };
+    formatCommentData(commentData, articleObj);
+    expect(commentData).toEqual([
+      {
+        body: "Test",
+        belongs_to:
+          "The People Tracking Every Touch, Pass And Tackle in the World Cup",
+        created_by: "tickle122",
+        votes: -1,
+        created_at: new Date(1590103140000),
+      },
+    ]);
+    expect(articleObj).toEqual({
+      "The People Tracking Every Touch, Pass And Tackle in the World Cup": 36,
     });
-    test("Should return article in correct form", () => {
-      const articleResult = [
-        {
-          article_id: 67,
-          title: "Hi",
-          body: "Test",
-          votes: 2,
-          topic: "Hello",
-          author: "Rowling",
-          created_at: new Date(1590103140000),
-        },
-      ];
-      expect(createArticleId(articleResult)).toEqual({
-        Hi: 67,
-      });
+  });
+});
+describe.only("createArticleId()", () => {
+  test("returns empty object when given empty array", () => {
+    const articleResult = [];
+    expect(createArticleId(articleResult)).toEqual({});
+  });
+  test("Should return article in correct form", () => {
+    const articleResult = [
+      {
+        article_id: 67,
+        title: "Hi",
+        body: "Test",
+        votes: 2,
+        topic: "Hello",
+        author: "Rowling",
+        created_at: new Date(1590103140000),
+      },
+    ];
+    expect(createArticleId(articleResult)).toEqual({
+      Hi: 67,
     });
   });
 });
