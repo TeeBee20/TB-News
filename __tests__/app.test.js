@@ -57,34 +57,33 @@ describe("GET - /api/topics", () => {
   //       });
   //   });
 });
-describe("GET - /api/articles/:article_id", () => {
-  test.only("200: returns an object with key of article with a value of the specified article object in an array", () => {
+describe.only("GET - /api/articles/:article_id", () => {
+  test("200: returns an object with key of article with a value of the specified article object", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
       .then((response) => {
         const { body } = response;
         expect(typeof body).toBe("object");
-        expect(Array.isArray(body.article)).toBe(true);
-        expect(typeof body.article[0]).toBe("object");
+        expect(typeof body.article).toBe("object");
       });
   });
-  test.only("200: returns specified article object", () => {
+  test("200: returns specified article object", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
       .then((response) => {
         const { body } = response;
-        expect(body.article[0]).toEqual(
+        expect(body.article).toEqual(
           expect.objectContaining({
-            author: expect.any(String),
-            title: expect.any(String),
-            article_id: expect.any(Number),
-            body: expect.any(String),
-            topic: expect.any(String),
-            created_at: expect.any(String),
-            votes: expect.any(Number),
-            comment_count: expect.any(Number),
+            article_id: 1,
+            title: "Living in the shadow of a great man",
+            body: "I find this existence challenging",
+            votes: 100,
+            topic: "mitch",
+            author: "butter_bridge",
+            created_at: "2020-07-09T20:11:00.000Z",
+            comment_count: 13,
           })
         );
       });
