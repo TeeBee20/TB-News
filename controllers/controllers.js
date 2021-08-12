@@ -72,18 +72,14 @@ exports.postCommentArticleId = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const { username, body } = req.body;
-    const reqObjKeys = Object.keys(req.body);
 
-    if (reqObjKeys.length > 2) {
-      return Promise.reject({ status: 400, msg: "bad request" });
-    }
     const postedComment = await addCommentByArticleId(
       username,
       article_id,
       body
     );
 
-    res.status(200).send({ comment: postedComment });
+    res.status(201).send({ comment: postedComment });
   } catch (err) {
     next(err);
   }

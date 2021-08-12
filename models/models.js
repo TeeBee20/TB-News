@@ -135,6 +135,12 @@ exports.updateArticleVotesById = async (articleId, newVotes) => {
 };
 
 exports.addCommentByArticleId = async (username, article_id, body) => {
+  await checkExists("articles", "article_id", article_id);
+
+  if (!username || !body) {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
+
   const date = Date.now();
   const timestamp = new Date(date);
   const postedComment = await db.query(
