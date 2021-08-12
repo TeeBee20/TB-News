@@ -6,11 +6,11 @@ const { sort } = require("../db/data/test-data/articles");
 exports.selectTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
 
-  if (!result) {
+  if (!result.rows) {
     return Promise.reject({ status: 404, msg: "not found" });
   }
 
-  return result;
+  return result.rows;
 };
 
 exports.selectAllArticles = async (

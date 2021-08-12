@@ -24,7 +24,6 @@ app.use(express.json());
 app.set("json spaces", 2);
 
 app.use("/api", apiRouter);
-// app.get("/api", getEndpoints);
 app.all("*", handleInvalidPaths);
 
 app.use(handleCustomErrors);

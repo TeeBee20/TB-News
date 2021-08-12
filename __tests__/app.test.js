@@ -451,24 +451,112 @@ describe("GET - /api", () => {
             },
             "GET /api/topics": {
               description: "serves an array of all topics",
-              queries: [],
               exampleResponse: {
                 topics: [{ slug: "football", description: "Footie!" }],
               },
             },
             "GET /api/articles": {
               description: "serves an array of all topics",
-              queries: ["author", "topic", "sort_by", "order"],
+              queries: ["topic", "order", "sort_by"],
+              "query options": {
+                topic: ["coding", "football", "cooking"],
+                order: ["asc", "desc"],
+                sort_by: [
+                  "author",
+                  "title",
+                  "article_id",
+                  "topic",
+                  "created_at",
+                  "votes",
+                  "comment_count",
+                ],
+              },
               exampleResponse: {
                 articles: [
                   {
-                    title: "Seafood substitutions are increasing",
+                    article_id: 34,
+                    title: "The Notorious MSG’s Unlikely Formula For Success",
+                    body: "The 'umami' craze has turned a much-maligned and misunderstood food additive into an object of obsession for the world’s most innovative chefs. But secret ingredient monosodium glutamate’s biggest secret may be that there was never anything wrong with it at all.",
+                    votes: 0,
                     topic: "cooking",
-                    author: "weegembump",
-                    body: "Text from the article..",
-                    created_at: 1527695953341,
+                    author: "grumpy19",
+                    created_at: "2020-11-22T11:13:00.000Z",
+                    comment_count: 11,
                   },
                 ],
+              },
+            },
+            "GET /api/articles/:article_id": {
+              description: "serves an object of specified article",
+              exampleResponse: {
+                article: {
+                  article_id: 34,
+                  title: "The Notorious MSG’s Unlikely Formula For Success",
+                  body: "The 'umami' craze has turned a much-maligned and misunderstood food additive into an object of obsession for the world’s most innovative chefs. But secret ingredient monosodium glutamate’s biggest secret may be that there was never anything wrong with it at all.",
+                  votes: 0,
+                  topic: "cooking",
+                  author: "grumpy19",
+                  created_at: "2020-11-22T11:13:00.000Z",
+                  comment_count: 11,
+                },
+              },
+            },
+            "GET /api/articles/:article_id/comments": {
+              description:
+                "serves an array of all comments for specified article",
+              exampleResponse: {
+                comments: [
+                  {
+                    comment_id: 48,
+                    author: "jessjelly",
+                    article_id: 34,
+                    votes: 12,
+                    created_at: "2020-03-08T20:02:00.000Z",
+                    body: "Eaque fugiat est veniam ex praesentium et saepe molestias non. Est dolore et sint consequuntur.",
+                  },
+                  {
+                    comment_id: 50,
+                    author: "cooljmessy",
+                    article_id: 34,
+                    votes: 0,
+                    created_at: "2020-03-22T11:15:00.000Z",
+                    body: "Et sed quia repudiandae aut error ut. Sequi voluptas error ut quibusdam officia quis. Sapiente est rem. Culpa molestiae omnis vel. Explicabo ea velit ipsa quasi autem error culpa quasi. Nulla ab omnis optio non voluptatem cumque.",
+                  },
+                ],
+              },
+            },
+            "PATCH /api/articles/:article_id": {
+              description:
+                "updates vote count and responds with updated article object",
+              exampleRequestBody: { inc_votes: -10 },
+              exampleResponse: {
+                article: {
+                  author: "rogersop",
+                  title: "UNCOVERED: catspiracy to bring down democracy",
+                  article_id: 5,
+                  body: "Bastet walks amongst us, and the cats are taking arms!",
+                  topic: "cats",
+                  created_at: "2020-08-03T13:14:00.000Z",
+                  votes: -10,
+                  comment_count: 2,
+                },
+              },
+            },
+            "POST /api/articles/:article_id/comments": {
+              description:
+                "updates specified article comments and serves posted comment",
+              exampleRequestBody: { inc_votes: -10 },
+              exampleResponse: {
+                article: {
+                  author: "rogersop",
+                  title: "UNCOVERED: catspiracy to bring down democracy",
+                  article_id: 5,
+                  body: "Bastet walks amongst us, and the cats are taking arms!",
+                  topic: "cats",
+                  created_at: "2020-08-03T13:14:00.000Z",
+                  votes: -10,
+                  comment_count: 2,
+                },
               },
             },
           },
