@@ -62,7 +62,10 @@ exports.patchArticleById = async (req, res, next) => {
       await Promise.reject({ status: 400, msg: "bad request" });
     }
 
-    const updatedArticle = await updateArticleVotesById(article_id, inc_votes);
+    const [updatedArticle] = await updateArticleVotesById(
+      article_id,
+      inc_votes
+    );
     res.status(200).send({ article: updatedArticle });
   } catch (err) {
     next(err);

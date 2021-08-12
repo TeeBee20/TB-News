@@ -95,15 +95,15 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
-describe("PATCH - /api/articles/:article_id", () => {
+describe.only("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
       .patch("/api/articles/12")
       .expect(200)
       .send({ inc_votes: 10 })
       .then((response) => {
-        const { body } = response;
-        expect(body.article[0]).toEqual(
+        const { article } = response.body;
+        expect(article).toEqual(
           expect.objectContaining({
             author: "butter_bridge",
             title: "Moustache",
@@ -123,8 +123,8 @@ describe("PATCH - /api/articles/:article_id", () => {
       .expect(200)
       .send({ inc_votes: -10 })
       .then((response) => {
-        const { body } = response;
-        expect(body.article[0]).toEqual(
+        const { article } = response.body;
+        expect(article).toEqual(
           expect.objectContaining({
             author: "rogersop",
             title: "UNCOVERED: catspiracy to bring down democracy",
@@ -436,7 +436,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
       });
   });
 });
-describe.only("GET - /api", () => {
+describe("GET - /api", () => {
   it("200: returns JSON listing all endpoints", () => {
     return request(app)
       .get("/api")
