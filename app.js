@@ -20,7 +20,8 @@ const {
 } = require("./controllers/controllers");
 
 app.use(cors());
-app.use(express.json(null, 2));
+app.use(express.json());
+app.set("json spaces", 2);
 
 //refactor to use routers later//
 app.get("/api", getEndpoints);
