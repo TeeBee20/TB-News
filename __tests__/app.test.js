@@ -107,7 +107,6 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
-//first test works only when patch is tested on its own//
 describe.only("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
@@ -179,6 +178,26 @@ describe.only("PATCH - /api/articles/:article_id", () => {
       .then((response) => {
         const { body } = response;
         expect(body.msg).toBe("bad request");
+      });
+  });
+  test('400: returns "bad request" error when given request with invalid id', () => {
+    return request(app)
+      .patch("/api/articles/bad-id")
+      .expect(400)
+      .send({ inc_votes: 10 })
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test('404: returns "not found" error when given request with non existent id', () => {
+    return request(app)
+      .patch("/api/articles/9999")
+      .expect(404)
+      .send({ inc_votes: 10 })
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("not found");
       });
   });
 });

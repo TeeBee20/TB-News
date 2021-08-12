@@ -127,6 +127,10 @@ exports.updateArticleVotesById = async (articleId, newVotes) => {
     [articleId]
   );
 
+  if (articleWithVotes.rows.length === 0) {
+    return checkExists("articles", "article_id", articleId);
+  }
+
   return articleWithVotes.rows;
 };
 
