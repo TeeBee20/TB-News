@@ -16,12 +16,14 @@ const {
   patchArticleById,
   postCommentArticleId,
   seedController,
+  getEndpoints,
 } = require("./controllers/controllers");
 
 app.use(cors());
 app.use(express.json());
 
 //refactor to use routers later//
+app.get("/api", getEndpoints);
 app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);

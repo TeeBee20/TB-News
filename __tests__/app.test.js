@@ -44,18 +44,6 @@ describe("GET - /api/topics", () => {
         });
       });
   });
-  //correct test for 404 not found error, wrong file path//
-
-  //   it.only('404: returns msg of "not found" for path that does not exist', () => {
-  //     return request(app)
-  //       .get("/api/not-a-path")
-  //       .expect(404)
-  //       .then((response) => {
-  //         console.log(response.error);
-  //         const { body } = response;
-  //         expect(body.msg).toBe("not found");
-  //       });
-  //   });
 });
 describe("GET - /api/articles/:article_id", () => {
   test("200: returns an object with key of article with a value of the specified article object", () => {
@@ -355,17 +343,6 @@ describe("GET - /api/articles/:article_id/comments", () => {
         ]);
       });
   });
-  //no articles have 0 comments??//
-  // it("returns an empty array when given valid article id of article with no comments", () => {
-  //   return request(app)
-  //     .get("/api/articles/12/comments")
-  //     .expect(200)
-  //     .then((response) => {
-  //       const { body } = response;
-  //       expect(body.comments).toHaveLength(0);
-  //       expect(body.comments).toEqual([]);
-  //     });
-  // });
   it("404: returns error when given article_id that does not exist", () => {
     return request(app)
       .get("/api/articles/9000/comments")
@@ -385,7 +362,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
       });
   });
 });
-describe.only("POST - /api/articles/:article_id/comments", () => {
+describe("POST - /api/articles/:article_id/comments", () => {
   test("201: returns object of posted comment", () => {
     return request(app)
       .post("/api/articles/9/comments")
@@ -458,41 +435,56 @@ describe.only("POST - /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("not found");
       });
   });
-  // test("200: adds posted comment to comments", () => {
-  //   return request(app)
-  //     .post("/api/articles/9/comments")
-  //     .expect(200)
-  //     .send({ username: "butter_bridge", body: "this is comment" })
-  //     .then((response) => {
-  //       const { body } = response;
-  //       expect(body.comments.length).toBe(3);
-  //       expect(body.comments).toEqual([
-  //         {
-  //           comment_id: 1,
-  //           author: "butter_bridge",
-  //           article_id: 9,
-  //           votes: 16,
-  //           created_at: expect.any(String),
-  //           body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
-  //         },
-  //         {
-  //           comment_id: 17,
-  //           author: "icellusedkars",
-  //           article_id: 9,
-  //           votes: 20,
-  //           created_at: expect.any(String),
-  //           body: "The owls are not what they seem.",
-  //         },
-  //         {
-  //           comment_id: 19,
-  //           author: "butter_bridge",
-  //           article_id: 9,
-  //           votes: 0,
-  //           created_at: expect.any(String),
-  //           body: "this is comment",
-  //         },
-  //       ]);
-  //     });
-  // });
 });
-//finish working on topic query//
+describe.only("GET - /api", () => {
+  it("200: returns JSON listing all endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const { endpoints } = response.body;
+        expect(endpoints).toEqual([
+          {
+            "GET /api": {
+              description:
+                "serves up a json representation of all the available endpoints of the api",
+            },
+            "GET /api/topics": {
+              description: "serves an array of all topics",
+              queries: [],
+              exampleResponse: {
+                topics: [{ slug: "football", description: "Footie!" }],
+              },
+            },
+            "GET /api/articles": {
+              description: "serves an array of all topics",
+              queries: ["author", "topic", "sort_by", "order"],
+              exampleResponse: {
+                articles: [
+                  {
+                    title: "Seafood substitutions are increasing",
+                    topic: "cooking",
+                    author: "weegembump",
+                    body: "Text from the article..",
+                    created_at: 1527695953341,
+                  },
+                ],
+              },
+            },
+          },
+        ]);
+      });
+  });
+});
+//correct test for 404 not found error, wrong file path//
+
+//   it.only('404: returns msg of "not found" for path that does not exist', () => {
+//     return request(app)
+//       .get("/api/not-a-path")
+//       .expect(404)
+//       .then((response) => {
+//         console.log(response.error);
+//         const { body } = response;
+//         expect(body.msg).toBe("not found");
+//       });
+//   });

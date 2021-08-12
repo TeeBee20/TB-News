@@ -1,6 +1,7 @@
 const { sort } = require("../db/data/test-data/articles");
 const articles = require("../db/data/test-data/articles");
 const seed = require("../db/seeds/seed");
+const endpoints = require("../endpoints.json");
 const devData = require("../db/data/development-data");
 const {
   selectTopics,
@@ -89,4 +90,8 @@ exports.seedController = (req, res, next) => {
   seed(devData).then((response) => {
     res.status(200).send({ msg: "Seeded OK" });
   });
+};
+
+exports.getEndpoints = (req, res, next) => {
+  res.status(200).send({ endpoints: [endpoints] });
 };
