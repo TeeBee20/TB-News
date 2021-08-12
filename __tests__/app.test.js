@@ -57,7 +57,7 @@ describe("GET - /api/topics", () => {
   //       });
   //   });
 });
-describe.only("GET - /api/articles/:article_id", () => {
+describe("GET - /api/articles/:article_id", () => {
   test("200: returns an object with key of article with a value of the specified article object", () => {
     return request(app)
       .get("/api/articles/1")
@@ -108,7 +108,7 @@ describe.only("GET - /api/articles/:article_id", () => {
   });
 });
 //first test works only when patch is tested on its own//
-describe("PATCH - /api/articles/:article_id", () => {
+describe.only("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
       .patch("/api/articles/12")

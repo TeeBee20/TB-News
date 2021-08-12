@@ -107,14 +107,10 @@ exports.updateArticleVotesById = async (articleId, newVotes) => {
     return Promise.reject({ status: 400, msg: "bad request" });
   }
 
-  const operationStr = Math.sign(newVotes) === -1 ? "-" : "+";
-  const votesVal = Math.abs(newVotes);
-  const queryOperation = operationStr + ` ${votesVal}`;
-
   const updatedArticle = await db.query(
     `UPDATE articles
   SET 
-  votes = votes ${queryOperation}
+  votes = votes + ${newVotes}
   WHERE article_id = $1
   RETURNING *;`,
     [articleId]
