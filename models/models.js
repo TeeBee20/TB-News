@@ -102,8 +102,8 @@ exports.selectCommentsByArticleId = async (articleId) => {
   return comments.rows;
 };
 
-exports.updateArticleVotesById = async (articleId, newVotes) => {
-  if (!newVotes) {
+exports.updateArticleVotesById = async (articleId, newVotes, reqObj) => {
+  if (!newVotes || typeof newVotes !== "number" || reqObj.length > 1) {
     return Promise.reject({ status: 400, msg: "bad request" });
   }
 

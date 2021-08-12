@@ -45,7 +45,6 @@ exports.getArticleById = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const [article] = await selectArticleById(article_id);
-    console.log(article);
     res.status(200).send({ article: article });
   } catch (err) {
     next(err);
@@ -58,13 +57,10 @@ exports.patchArticleById = async (req, res, next) => {
     const { inc_votes } = req.body;
     const reqObjKeys = Object.keys(req.body);
 
-    if (reqObjKeys.length > 1 || typeof inc_votes !== "number") {
-      await Promise.reject({ status: 400, msg: "bad request" });
-    }
-
     const [updatedArticle] = await updateArticleVotesById(
       article_id,
-      inc_votes
+      inc_votes,
+      reqObjKeys
     );
     res.status(200).send({ article: updatedArticle });
   } catch (err) {
