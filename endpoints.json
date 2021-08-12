@@ -4,22 +4,37 @@
   },
   "GET /api/topics": {
     "description": "serves an array of all topics",
-    "queries": [],
     "exampleResponse": {
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
   "GET /api/articles": {
     "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "queries": ["topic", "order", "sort_by"],
+    "query options": {
+      "topic": ["coding", "football", "cooking"],
+      "order": ["asc", "desc"],
+      "sort_by": [
+        "author",
+        "title",
+        "article_id",
+        "topic",
+        "created_at",
+        "votes",
+        "comment_count"
+      ]
+    },
     "exampleResponse": {
       "articles": [
         {
-          "title": "Seafood substitutions are increasing",
+          "article_id": 34,
+          "title": "The Notorious MSG’s Unlikely Formula For Success",
+          "body": "The 'umami' craze has turned a much-maligned and misunderstood food additive into an object of obsession for the world’s most innovative chefs. But secret ingredient monosodium glutamate’s biggest secret may be that there was never anything wrong with it at all.",
+          "votes": 0,
           "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "author": "grumpy19",
+          "created_at": "2020-11-22T11:13:00.000Z",
+          "comment_count": 11
         }
       ]
     }
