@@ -67,10 +67,6 @@ exports.selectAllArticles = async (
 };
 
 exports.selectArticleById = async (articleId) => {
-  // if (typeof articleID !== "number") {
-  //   return Promise.reject({ status: 400, msg: "bad request" });
-  // }
-
   const articles = await db.query(
     `SELECT articles.*, 
     COUNT(comment_id) :: INT AS comment_count 

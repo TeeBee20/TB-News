@@ -1,14 +1,14 @@
-exports.handleCustomErrors = (err, req, res, next) => {
-  if (err.status) {
-    res.status(err.status).send({ msg: err.msg });
+exports.handleInvalidPaths = (err, req, res, next) => {
+  if (res.statusCode === 404) {
+    res.status(res.statusCode).send({ msg: "not found" });
   } else {
     next(err);
   }
 };
 
-exports.handleInvalidPaths = (err, req, res, next) => {
-  if (err.status === 404) {
-    res.status(err.status).send({ msg: "not found" });
+exports.handleCustomErrors = (err, req, res, next) => {
+  if (err.status) {
+    res.status(err.status).send({ msg: err.msg });
   } else {
     next(err);
   }

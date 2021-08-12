@@ -564,15 +564,14 @@ describe("GET - /api", () => {
       });
   });
 });
-//correct test for 404 not found error, wrong file path//
-
-//   it.only('404: returns msg of "not found" for path that does not exist', () => {
-//     return request(app)
-//       .get("/api/not-a-path")
-//       .expect(404)
-//       .then((response) => {
-//         console.log(response.error);
-//         const { body } = response;
-//         expect(body.msg).toBe("not found");
-//       });
-//   });
+describe.only("* - invalid file path", () => {
+  it('404: returns "not found" error for path that does not exist', () => {
+    return request(app)
+      .get("/not-a-path")
+      .expect(404)
+      .then((response) => {
+        const { body } = response;
+        expect(body.msg).toBe("not found");
+      });
+  });
+});
