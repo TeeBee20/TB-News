@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const pretty = require("express-prettify");
 const apiRouter = require("./routers/api-router");
 const cors = require("cors");
 const {
@@ -21,6 +22,7 @@ const {
 
 app.use(cors());
 app.use(express.json());
+app.use(pretty({ query: "pretty" }));
 
 //refactor to use routers later//
 app.get("/api", getEndpoints);
