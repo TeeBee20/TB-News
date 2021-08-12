@@ -77,7 +77,7 @@ exports.postCommentArticleId = async (req, res, next) => {
     const { article_id } = req.params;
     const { username, body } = req.body;
 
-    const postedComment = await addCommentByArticleId(
+    const [postedComment] = await addCommentByArticleId(
       username,
       article_id,
       body

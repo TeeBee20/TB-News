@@ -95,7 +95,7 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
-describe.only("PATCH - /api/articles/:article_id", () => {
+describe("PATCH - /api/articles/:article_id", () => {
   test("200: returns updated article with incremented votes when given positive number", () => {
     return request(app)
       .patch("/api/articles/12")
@@ -369,8 +369,8 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .expect(201)
       .send({ username: "butter_bridge", body: "this is comment" })
       .then((response) => {
-        const { body } = response;
-        expect(body.comment[0]).toEqual(
+        const { comment } = response.body;
+        expect(comment).toEqual(
           expect.objectContaining({
             comment_id: expect.any(Number),
             author: "butter_bridge",
@@ -392,8 +392,8 @@ describe("POST - /api/articles/:article_id/comments", () => {
         msg: "hello",
       })
       .then((response) => {
-        const { body } = response;
-        expect(body.comment[0]).toEqual(
+        const { comment } = response.body;
+        expect(comment).toEqual(
           expect.objectContaining({
             comment_id: expect.any(Number),
             author: "butter_bridge",
