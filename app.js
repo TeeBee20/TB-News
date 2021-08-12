@@ -21,8 +21,8 @@ const {
 } = require("./controllers/controllers");
 
 app.use(cors());
-app.use(express.json());
 app.use(pretty({ query: "pretty" }));
+app.use(express.json());
 
 //refactor to use routers later//
 app.get("/api", getEndpoints);
