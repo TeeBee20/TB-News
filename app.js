@@ -25,16 +25,16 @@ app.set("json spaces", 2);
 
 //refactor to use routers later//
 app.use("/api", apiRouter);
-// app.get("/api", getEndpoints);
+app.get("/api", getEndpoints);
 // app.get("/api/topics", getTopics);
-app.get("/api/articles/:article_id", getArticleById);
-app.get("/api/articles", getArticles);
-app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
-app.patch("/api/articles/:article_id", patchArticleById);
-app.post("/api/articles/:article_id/comments", postCommentArticleId);
+// app.get("/api/articles/:article_id", getArticleById);
+// app.get("/api/articles", getArticles);
+// app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
+// app.patch("/api/articles/:article_id", patchArticleById);
+// app.post("/api/articles/:article_id/comments", postCommentArticleId);
 
 app.all("*", handleInvalidPaths);
-app.get("/api/seed", seedController);
+// app.get("/api/seed", seedController);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
