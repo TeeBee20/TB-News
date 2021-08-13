@@ -27,6 +27,5 @@ app.use("/api", apiRouter);
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
 app.use(handleServerErrors);
-app.all("*", handleInvalidPaths);
 
 module.exports = app;
