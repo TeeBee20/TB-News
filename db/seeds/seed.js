@@ -99,7 +99,7 @@ const seed = async (data) => {
     commentValues
   );
 
-  await db.query(commentDataStr).catch((err) => console.log(err));
+  await db.query(commentDataStr);
 };
 
 module.exports = seed;

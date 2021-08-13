@@ -1,8 +1,0 @@
-You are now connected to database "nc_news_test" as user "tiffanybrooks".
- comment_id |    author     | article_id | votes |       created_at        |                                       body                                        
-------------+---------------+------------+-------+-------------------------+-----------------------------------------------------------------------------------
-          1 | butter_bridge |          9 |    16 | 2020-04-06 13:17:00     | Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!
-         17 | icellusedkars |          9 |    20 | 2020-03-14 17:02:00     | The owls are not what they seem.
-         19 | butter_bridge |          9 |     0 | 2021-07-14 11:47:00.438 | this is comment
-(3 rows)
-

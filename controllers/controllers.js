@@ -1,5 +1,3 @@
-const { sort } = require("../db/data/test-data/articles");
-const articles = require("../db/data/test-data/articles");
 const seed = require("../db/seeds/seed");
 const endpoints = require("../endpoints.json");
 const devData = require("../db/data/development-data");
@@ -85,12 +83,12 @@ exports.postCommentArticleId = async (req, res, next) => {
   }
 };
 
-exports.seedController = (req, res, next) => {
-  seed(devData).then((response) => {
+exports.seedController = (req, res) => {
+  seed(devData).then(() => {
     res.status(200).send({ msg: "Seeded OK" });
   });
 };
 
-exports.getEndpoints = (req, res, next) => {
+exports.getEndpoints = (req, res) => {
   res.status(200).send({ endpoints: [endpoints] });
 };

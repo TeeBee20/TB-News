@@ -1,7 +1,5 @@
 const db = require("../db/connection");
-const { checkQuery, checkExists } = require("./models.utils");
-const format = require("pg-format");
-const { sort } = require("../db/data/test-data/articles");
+const { checkExists } = require("./models.utils");
 
 exports.selectTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
