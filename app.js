@@ -22,13 +22,11 @@ const {
 app.use(cors());
 app.use(express.json());
 app.set("json spaces", 2);
-
 app.use("/api", apiRouter);
 
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
 app.use(handleServerErrors);
-//handle invalid path//
 app.all("*", handleInvalidPaths);
 
 module.exports = app;

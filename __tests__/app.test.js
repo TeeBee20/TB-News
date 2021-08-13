@@ -564,7 +564,7 @@ describe("GET - /api", () => {
       });
   });
 });
-describe.only("* - invalid file path", () => {
+describe("* - invalid file path", () => {
   it('404: returns "not found" error for path that does not exist', () => {
     return request(app)
       .get("/not-a-path")
