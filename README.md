@@ -1,4 +1,4 @@
-### TB News API
+## TB News API
 
 ## Overview
 
@@ -14,44 +14,37 @@ Using a PSQL databse, the project stores information related to topics, articles
 
 2. Clone repo to machine
 
-### git clone https://github.com/TeeBee20/TB-News.git
+   git clone https://github.com/TeeBee20/TB-News.git
 
 3. Install dependencies
 
-### npm install
+   npm install
 
 4. Setup environment
    Create a .env.development file
-   Insert:
-
-   ### PGDATABASE=nc_news
+   Insert: PGDATABASE=nc_news
 
    Create a .env.test file
-   Insert:
-
-   ### PGDATABASE=nc_news_test
+   Insert: PGDATABASE=nc_news_test
 
 5. Create the DB
-
-### npm run setup-dbs
+   npm run setup-dbs
 
 6. Seed the DB
-
-### npm run seed
-
-    If error: visit api/seed endpoint in API
+   npm run seed
+   If error: visit api/seed endpoint in API
 
 ## Testing
 
 ## Endpoints
 
-### npm test app
+    npm test app
 
 ## DB Seeding Utility Functions
 
-### npm test utils
+    npm test utils
 
 ## Requirements:
 
-Node.js v16.3.0
-Postgres v13.3
+    Node.js v16.3.0
+    Postgres v13.3
