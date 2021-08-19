@@ -23,10 +23,14 @@ Using a PSQL databse, the project stores information related to topics, articles
 4. Setup environment
 
    Create a **.env.development** file
+
    Add `PGDATABASE=nc_news`
 
    Create a **.env.test** file
+
    Add `PGDATABASE=nc_news_test`
+
+   **Add both files to .gitignore file**
 
 5. Create the DB
 
@@ -36,7 +40,7 @@ Using a PSQL databse, the project stores information related to topics, articles
 
    `npm run seed`
 
-   If error: visit `api/seed` endpoint in API
+   **If error:** visit `api/seed` endpoint in API
 
 ## Testing
 
