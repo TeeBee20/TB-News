@@ -13,6 +13,7 @@ Using a PSQL databse, the project stores information related to topics, articles
 1. **Fork** this repo
 
 2. **Clone** repo to machine
+
    `git clone https://github.com/TeeBee20/TB-News.git`
 
 3. **Install** dependencies
@@ -20,6 +21,7 @@ Using a PSQL databse, the project stores information related to topics, articles
    `npm install`
 
 4. Setup environment
+
    Create a **.env.development** file
    Add `PGDATABASE=nc_news`
 
@@ -27,10 +29,13 @@ Using a PSQL databse, the project stores information related to topics, articles
    Add `PGDATABASE=nc_news_test`
 
 5. Create the DB
+
    `npm run setup-dbs`
 
 6. Seed the DB
+
    `npm run seed`
+
    If error: visit `api/seed` endpoint in API
 
 ## Testing
