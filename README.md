@@ -40,8 +40,6 @@ Using a PSQL databse, the project stores information related to topics, articles
 
    `npm run seed`
 
-   **If error:** visit `api/seed` endpoint in API
-
 ## Testing
 
 ### Endpoints
